@@ -6,6 +6,14 @@ interface Props { title?: string; description?: string; bodyClass?: string; }
 const { title, description = shareDescription, bodyClass = '' } = Astro.props;
 const fullTitle = title ? `${title} — ${profile.nameJa}` : `${profile.nameJa} ${profile.nameEn}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+// Google の検索結果に出る「サイト名」（ないと github.io の GitHub と表示される）。トップページにだけ置く
+const siteLd = Astro.url.pathname === '/' ? JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: profile.nameJa,
+  alternateName: [profile.nameEn, `${profile.nameJa} ${profile.nameEn}`],
+  url: 'https://hatoiro.github.io/',
+}) : '';
 ---
 <!DOCTYPE html>
 <html lang="ja">
@@ -21,6 +29,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   <meta property="og:title" content={fullTitle} />
   <meta property="og:description" content={description} />
   <meta property="og:type" content="website" />
+  <meta property="og:site_name" content={profile.nameJa} />
+  {siteLd && <script type="application/ld+json" set:html={siteLd} />}
   <meta property="og:url" content={canonical} />
   <meta name="theme-color" content="#111010" />
   <link rel="icon" href="/favicon.ico" sizes="48x48" />
