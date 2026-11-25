@@ -5,7 +5,7 @@
 // ------------------------------------------------------------
 
 // 公開準備中は true。検索エンジンに載らないようにする（完成したら false に）
-export const draft = true;
+export const draft = false;
 
 export const profile = {
   nameJa: '石黒晴翔',
