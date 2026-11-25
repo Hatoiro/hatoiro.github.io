@@ -29,9 +29,9 @@ export const socials = [
 export const podcast = {
   name: 'noisystudyroom',
   tagline: '友人を呼んで、人生を深掘る。',
-  about: '毎回ひとりのゲストを呼んで、30分くらい話すポッドキャスト。YouTube と Spotify で配信している。',
+  about: '身の回りの面白い友人を連れてきてインタビューする、30分ほどの質素なpodcast。YouTube と Spotify で配信している。',
   youtube: 'https://www.youtube.com/@noisystudyroom',
-  spotify: '',
+  spotify: 'https://open.spotify.com/show/033XrQOUG2qLNHDLtBC7ce?si=SnCsfoHgSGGGCCxTv_u6Cw',
 };
 
 export const instagram = { handle: 'hato_iro', url: 'https://www.instagram.com/hato_iro/' };
@@ -96,8 +96,8 @@ export const featuredWork: Work = {
   cta: '搭乗する',
 };
 export const works: Work[] = [
-  { title: '三田春日神社 例大祭2026', kind: 'Video', year: '2026', body: '3年に1度の、三田春日神社の例大祭の映像。', youtube: 'https://youtu.be/F0lGEvlRDMo' },
-  { title: '三田春日神社 例大祭2023', kind: 'Video', year: '2023', body: '3年に1度の、三田春日神社の例大祭の映像。', youtube: 'https://www.youtube.com/watch?v=mlkUUPkw58c' },
+  { title: '三田春日神社 例大祭2026', kind: 'Video', year: '2026', body: '3年に1度の、三田春日神社の例大祭の映像。大雨の中、記録と映像美の追求を試みた。', youtube: 'https://youtu.be/F0lGEvlRDMo' },
+  { title: '三田春日神社 例大祭2023', kind: 'Video', year: '2023', body: '3年に1度の、三田春日神社の例大祭の映像。灼熱の中初めて長時間動画を撮り編集する経験。', youtube: 'https://www.youtube.com/watch?v=mlkUUPkw58c' },
   { title: '運動会 青組パンフレット', kind: 'Print', year: '2024', body: '開成の運動会で、自分の組・青組のパンフレットをつくった。', images: 'aogumi-pamphlet', color: '#1F3E8C' },
 ];
 export const lab = [
