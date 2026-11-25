@@ -1,9 +1,9 @@
 ---
 import '../styles/global.css';
-import { draft, profile } from '../data/site';
+import { draft, profile, shareDescription } from '../data/site';
 
 interface Props { title?: string; description?: string; bodyClass?: string; }
-const { title, description = profile.intro, bodyClass = '' } = Astro.props;
+const { title, description = shareDescription, bodyClass = '' } = Astro.props;
 const fullTitle = title ? `${title} — ${profile.nameJa}` : `${profile.nameJa} ${profile.nameEn}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---

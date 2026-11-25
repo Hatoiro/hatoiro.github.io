@@ -7,6 +7,9 @@
 // 公開準備中は true。検索エンジンに載らないようにする（完成したら false に）
 export const draft = false;
 
+// LINE などでリンクを共有したときに出る説明文（トップページ）。各ページの説明は、それぞれのページで指定
+export const shareDescription = '石黒晴翔のポートフォリオサイトです。';
+
 export const profile = {
   nameJa: '石黒晴翔',
   nameEn: 'Haruto Ishiguro',
