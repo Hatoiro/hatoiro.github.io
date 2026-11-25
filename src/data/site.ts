@@ -18,23 +18,23 @@ export const profile = {
 // SNS — URL が空のものは表示されない
 export const socials = [
   { name: 'YouTube', handle: '@noisystudyroom', url: 'https://www.youtube.com/@noisystudyroom' },
-  { name: 'Spotify', handle: 'noisystudyroom', url: '' },
-  { name: 'Instagram', handle: '', url: '' },
-  { name: 'Facebook', handle: '', url: '' },
+  { name: 'Spotify', handle: 'noisystudyroom', url: 'https://open.spotify.com/show/033XrQOUG2qLNHDLtBC7ce?si=SnCsfoHgSGGGCCxTv_u6Cw' },
+  { name: 'Instagram', handle: 'hato_iro', url: 'https://www.instagram.com/hato_iro/' },
+  { name: 'Facebook', handle: '石黒晴翔', url: 'https://www.facebook.com/profile.php?id=100076340807338&locale=ja_JP' },
   { name: 'LinkedIn', handle: 'Haruto Ishiguro', url: 'https://www.linkedin.com/in/haruto-ishiguro-96268a271/' },
   { name: 'GitHub', handle: 'Hatoiro', url: 'https://github.com/Hatoiro' },
-  { name: 'Mail', handle: '', url: '' },
+  { name: 'Mail', handle: '', url: 'ha1496@icloud.com' },
 ].filter((s) => s.url);
 
 export const podcast = {
   name: 'noisystudyroom',
-  tagline: '友人を呼んで、人生をふかぼる。',
+  tagline: '友人を呼んで、人生を深掘る。',
   about: '毎回ひとりのゲストを呼んで、30分くらい話すポッドキャスト。YouTube と Spotify で配信している。',
   youtube: 'https://www.youtube.com/@noisystudyroom',
   spotify: '',
 };
 
-export const instagram = { handle: '', url: '' };
+export const instagram = { handle: 'hato_iro', url: 'https://www.instagram.com/hato_iro/' };
 
 // ---------- 年譜：各年は雑誌の「号」 ----------
 export type Entry = { m: string; tag: 'Education' | 'Work' | 'Journey' | 'Podcast' | 'Photo' | 'Lab'; title: string; body?: string };
@@ -56,7 +56,7 @@ export const issues: Issue[] = [
     id: '2025', tab: '2025', big: '2025', kicker: 'Issue 2025', theme: '東京大学へ。投資の現場へ。', tone: '#2E3136',
     lines: [
       { k: 'Graduation', v: '開成高校、卒業' },
-      { k: 'University', v: '東京大学で経済を' },
+      { k: 'University', v: '東京大学で教養を' },
       { k: 'Venture capital', v: 'HIRAC FUND でインターン開始' },
     ],
     entries: [
@@ -71,7 +71,7 @@ export const issues: Issue[] = [
       { k: 'Podcast', v: 'noisystudyroom — 友人と、人生をふかぼる' },
       { k: 'Photographs', v: '東京・パリ・ナイロビを、オールドレンズで' },
       { k: 'Journeys', v: 'Sciences Po と、ケニアの電子決済' },
-      { k: 'Works', v: 'QUIET FLIGHT、離陸' },
+      { k: 'Works', v: 'QUIET FLIGHT' },
     ],
     entries: [
       { m: '02–03', tag: 'Journey', title: 'Sciences Po, Paris', body: 'Spring school で EU affairs を。EU経済と物流を学ぶ。' },
