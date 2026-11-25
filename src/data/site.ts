@@ -96,7 +96,8 @@ export const featuredWork: Work = {
   cta: '搭乗する',
 };
 export const works: Work[] = [
-  { title: '三田春日神社 例大祭', kind: 'Video', year: '', body: '3年に1度の、三田春日神社の例大祭の映像。', youtube: '' },
+  { title: '三田春日神社 例大祭2026', kind: 'Video', year: '2026', body: '3年に1度の、三田春日神社の例大祭の映像。', youtube: 'https://youtu.be/F0lGEvlRDMo' },
+  { title: '三田春日神社 例大祭2023', kind: 'Video', year: '2023', body: '3年に1度の、三田春日神社の例大祭の映像。', youtube: 'https://www.youtube.com/watch?v=mlkUUPkw58c' },
   { title: '運動会 青組パンフレット', kind: 'Print', year: '2024', body: '開成の運動会で、自分の組・青組のパンフレットをつくった。', images: 'aogumi-pamphlet', color: '#1F3E8C' },
 ];
 export const lab = [
