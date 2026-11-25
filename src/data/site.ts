@@ -76,7 +76,7 @@ export const issues: Issue[] = [
     entries: [
       { m: '02–03', tag: 'Journey', title: 'Sciences Po, Paris', body: 'Spring school で EU affairs を。EU経済と物流を学ぶ。' },
       { m: '04', tag: 'Education', title: '東京大学 2年に' },
-      { m: '秋', tag: 'Journey', title: 'Kenya Study Tour', body: '現地の経済と、電子決済を見に行く。' },
+      { m: '09', tag: 'Journey', title: 'Kenya Study Tour', body: '現地の経済と、電子決済を見に行く。' },
       { m: '11', tag: 'Work', title: 'QUIET FLIGHT 公開', body: '世界の空港を巡る、集中のためのフライトアプリ。' },
       { m: '11', tag: 'Lab', title: '三田春日神社 3D', body: '境内を歩いて参拝できるサイト。制作中。' },
     ],
