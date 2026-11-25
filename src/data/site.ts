@@ -29,7 +29,7 @@ export const socials = [
 export const podcast = {
   name: 'noisystudyroom',
   tagline: '友人を呼んで、人生を深掘る。',
-  about: '身の回りの面白い友人を連れてきてインタビューする、30分ほどの質素なpodcast。YouTube と Spotify で配信している。',
+  about: '身の回りの面白いゲストを連れてきてインタビューする、30分ほどの質素なpodcast。YouTube と Spotify で配信している。',
   youtube: 'https://www.youtube.com/@noisystudyroom',
   spotify: 'https://open.spotify.com/show/033XrQOUG2qLNHDLtBC7ce?si=SnCsfoHgSGGGCCxTv_u6Cw',
 };
