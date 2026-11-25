@@ -23,7 +23,7 @@ export const socials = [
   { name: 'Facebook', handle: '石黒晴翔', url: 'https://www.facebook.com/profile.php?id=100076340807338&locale=ja_JP' },
   { name: 'LinkedIn', handle: 'Haruto Ishiguro', url: 'https://www.linkedin.com/in/haruto-ishiguro-96268a271/' },
   { name: 'GitHub', handle: 'Hatoiro', url: 'https://github.com/Hatoiro' },
-  { name: 'Mail', handle: '', url: 'mailto:ha1496@icloud.com' },
+  { name: 'Mail', handle: '', url: '' },
 ].filter((s) => s.url);
 
 export const podcast = {
