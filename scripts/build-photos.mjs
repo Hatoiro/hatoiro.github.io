@@ -1,5 +1,7 @@
 // photos/ フォルダの写真を、サイト用に自動で加工する。
-//   photos/01-tokyo/*.jpg   → 暗室のロール（フォルダ名の数字で並び順、残りがロール名）
+//   photos/2026-03-paris/*.jpg → 暗室のロール。「年-月-名前」で、新しい順に並ぶ（月は省略可）
+//   photos/tokyo/*.jpg         → 年のないフォルダは「いつもの」ロールとして先頭に
+//   photos/<ロール>/roll.json  → 任意: {"label": "瀬戸内", "note": "高校2年の旅", "camera": "Canon EOS R"}
 //   photos/covers/2026.jpg  → その年の号の表紙
 // やること: 向きを直す → 2サイズの WebP に縮小 → 位置情報などのメタデータを全部消す → 一覧(JSON)を作る
 // 撮影日・レンズ・F値は、写真に記録されていれば自動で拾う。
@@ -62,7 +64,11 @@ async function main() {
       continue;
     }
     const conf = JSON.parse(await readFile(join(SRC, dir, 'roll.json'), 'utf8').catch(() => '{}'));
-    const roll = { id: dir.replace(/^\d+[-_ ]*/, '') || dir, label: conf.label || labelFrom(dir), camera: conf.camera || '', frames: [] };
+    const m = dir.match(/^(\d{4})(?:-(\d{1,2}))?[-_ ](.+)$/);
+    const year = m ? m[1] : '', month = m && m[2] ? m[2].padStart(2, '0') : '';
+    const slug = m ? m[3] : dir.replace(/^\d+[-_ ]*/, '');
+    const roll = { id: dir.replace(/[^\w-]/g, '-'), label: conf.label || labelFrom(slug), note: conf.note || '', year, period: year ? (month ? `${year}.${month}` : year) : '',
+      sort: year ? `${year}-${month || '00'}` : '9999', camera: conf.camera || '', frames: [] };
     for (const f of files) {
       const path = join(SRC, dir, f);
       const meta = await readMeta(path);
@@ -73,6 +79,8 @@ async function main() {
     manifest.rolls.push(roll);
   }
 
+  manifest.rolls.sort((a, b) => b.sort.localeCompare(a.sort));   // 年のないロール → 新しい年 → 古い年
+  manifest.rolls.forEach((r) => delete r.sort);
   if (gpsHits.length) {
     console.error('\n位置情報（GPS）が入った写真があります。公開を止めました:\n' + gpsHits.map((p) => '  - ' + p).join('\n'));
     console.error('位置情報を消した写真で置き換えてください（このリポジトリは誰でも見られます）。\n');

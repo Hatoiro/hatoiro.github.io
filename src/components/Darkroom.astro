@@ -4,11 +4,16 @@
 import photos from '../data/photos.json';
 import { hub } from '../data/site';
 type Frame = { src: string; thumb: string; title: string; date?: string; lens?: string; aperture?: string };
-const rolls = photos.rolls as { id: string; label: string; camera: string; frames: Frame[] }[];
+type Roll = { id: string; label: string; note?: string; year?: string; period?: string; camera: string; frames: Frame[] };
+const rolls = photos.rolls as Roll[];
 interface Props { full?: boolean }
 const { full = false } = Astro.props;
 const withFrames = rolls.filter((r) => r.frames.length);
-const shown = full ? withFrames : withFrames.map((r) => ({ ...r, frames: r.frames.slice(0, 12) }));
+// ハブでは新しいロール4本まで、各12コマまで。/photos/ では全部
+const shown = full ? withFrames : withFrames.slice(0, 4).map((r) => ({ ...r, frames: r.frames.slice(0, 12) }));
+const groupTitle = (r: Roll) => (r.year ? r.year : 'Everyday');
+const groups: { title: string; rolls: { r: Roll; i: number }[] }[] = [];
+shown.forEach((r, i) => { const t = groupTitle(r); const g = groups.find((x) => x.title === t); g ? g.rolls.push({ r, i }) : groups.push({ title: t, rolls: [{ r, i }] }); });
 const first = shown[0]?.frames[0];
 const tones = ['#5B574F', '#2E2D2A', '#8E887C', '#3F3D38', '#B4AE9F', '#4A4741'];
 ---
@@ -25,15 +30,20 @@ const tones = ['#5B574F', '#2E2D2A', '#8E887C', '#3F3D38', '#B4AE9F', '#4A4741']
   ) : (
     <>
       <div class="tabs" role="tablist" aria-label="ロール">
-        {shown.map((r, i) => (
-          <button type="button" class="pill" role="tab" aria-selected={i === 0 ? 'true' : 'false'} aria-pressed={i === 0 ? 'true' : 'false'} data-roll-tab={r.id}>Roll {String(i + 1).padStart(2, '0')} · {r.label}</button>
+        {groups.map((g) => (
+          <div class="tab-group">
+            {full && <span class="tg">{g.title}</span>}
+            {g.rolls.map(({ r, i }) => (
+              <button type="button" class="pill" role="tab" aria-selected={i === 0 ? 'true' : 'false'} aria-pressed={i === 0 ? 'true' : 'false'} data-roll-tab={r.id}>{r.label}{!full && r.period ? ` · ${r.period}` : ''}</button>
+            ))}
+          </div>
         ))}
       </div>
       <div class="room">
         <div class="table">
           {shown.map((r, ri) => (
             <div class="sheet" data-roll={r.id} hidden={ri !== 0}>
-              <p class="sheet-head"><span>Roll {String(ri + 1).padStart(2, '0')} — {r.label}</span><span>{r.camera}</span></p>
+              <p class="sheet-head"><span>Roll {String(ri + 1).padStart(2, '0')} — {r.label}{r.period && ` · ${r.period}`}{r.note && ` · ${r.note}`}</span><span>{r.camera}</span></p>
               {Array.from({ length: Math.ceil(r.frames.length / 6) }, (_, si) => (
                 <div class="strip">
                   <div class="sprk"></div>
@@ -88,7 +98,9 @@ const tones = ['#5B574F', '#2E2D2A', '#8E887C', '#3F3D38', '#B4AE9F', '#4A4741']
 </script>
 
 <style>
-  .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+  .tabs { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+  .tab-group { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .tg { flex: 0 0 96px; font: 400 12px var(--f-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted-on-dark); }
   .room { display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start; }
   .table { flex: 999 1 600px; background: #F1EEE6; padding: 22px; box-shadow: 0 40px 120px rgba(255, 240, 210, 0.07); }
   .sheet { display: flex; flex-direction: column; gap: 12px; }
