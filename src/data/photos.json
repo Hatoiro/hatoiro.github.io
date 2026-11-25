@@ -159,9 +159,9 @@
     {
       "id": "2026_heidelberg",
       "label": "Heidelberg",
-      "note": "",
+      "note": "Sciences Po の後に",
       "year": "2026",
-      "period": "2026",
+      "period": "2026.03",
       "camera": "Canon EOS R",
       "frames": [
         {
@@ -275,9 +275,9 @@
     {
       "id": "2026_london",
       "label": "London",
-      "note": "",
+      "note": "Sciences Po の合間に",
       "year": "2026",
-      "period": "2026",
+      "period": "2026.03",
       "camera": "Canon EOS R",
       "frames": [
         {
@@ -650,5 +650,27 @@
     "2025": "/photos-built/covers/2025-2400.webp",
     "2026": "/photos-built/covers/2026-2400.webp"
   },
-  "works": {}
+  "works": {
+    "kasuga-3d": [
+      {
+        "title": "",
+        "thumb": "/photos-built/works/kasuga-3d/1-800.webp",
+        "full": "/photos-built/works/kasuga-3d/1-2400.webp"
+      }
+    ],
+    "lecture-tracker": [
+      {
+        "title": "",
+        "thumb": "/photos-built/works/lecture-tracker/1-800.webp",
+        "full": "/photos-built/works/lecture-tracker/1-2400.webp"
+      }
+    ],
+    "quiet-flight": [
+      {
+        "title": "",
+        "thumb": "/photos-built/works/quiet-flight/1-800.webp",
+        "full": "/photos-built/works/quiet-flight/1-2400.webp"
+      }
+    ]
+  }
 }

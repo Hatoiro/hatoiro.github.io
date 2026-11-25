@@ -94,15 +94,17 @@ export const featuredWork: Work = {
   body: '時間をセットして、世界の空港へ飛ぶ集中タイマー。出発案内板で行き先を選び、搭乗券を受け取って離陸する。',
   url: 'https://hatoiro.github.io/quiet-flight/',
   cta: '搭乗する',
+  images: 'quiet-flight',
 };
 export const works: Work[] = [
   { title: '三田春日神社 例大祭2026', kind: 'Video', year: '2026', body: '3年に1度の、三田春日神社の例大祭の映像。大雨の中、記録と映像美の追求を試みた。', youtube: 'https://youtu.be/F0lGEvlRDMo' },
   { title: '三田春日神社 例大祭2023', kind: 'Video', year: '2023', body: '3年に1度の、三田春日神社の例大祭の映像。灼熱の中初めて長時間動画を撮り編集する経験。', youtube: 'https://www.youtube.com/watch?v=mlkUUPkw58c' },
   { title: '運動会 青組パンフレット', kind: 'Print', year: '2024', body: '開成の運動会で、自分の組・青組のパンフレットをつくった。', images: 'aogumi-pamphlet', color: '#1F3E8C' },
 ];
-export const lab = [
-  { title: '三田春日神社 3D', note: '境内を歩いて参拝できるサイト', status: 'In progress' },
-  { title: 'Lecture Tracker', note: '講義を聴き、スライドに注釈するAI', status: 'Prototype' },
+// images = works/<名前>/ の画像を小さなサムネイルとして表示（タップで全画面）
+export const lab: { title: string; note: string; status: string; images?: string }[] = [
+  { title: '三田春日神社 3D', note: '境内を歩いて参拝できるサイト', status: 'In progress', images: 'kasuga-3d' },
+  { title: 'Lecture Tracker', note: '講義を聴き、スライドに注釈するAI', status: 'Prototype', images: 'lecture-tracker' },
   { title: 'Movie Dictation', note: '洋画のセリフで穴埋めリスニング', status: 'Concept' },
   { title: 'Robi × AI', note: '組み立てたロボットに知能を', status: 'Concept' },
 ];
