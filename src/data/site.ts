@@ -104,8 +104,8 @@ export const featuredWork: Work = {
 };
 export const works: Work[] = [
   { title: '三田春日神社 例大祭2026', kind: 'Video', year: '2026', body: '3年に1度の、三田春日神社の例大祭の映像。大雨の中、記録と映像美の追求を試みた。', youtube: 'https://youtu.be/F0lGEvlRDMo' },
-  { title: 'HIRAC FUND ウェブサイト', kind: 'Website', year: '', body: 'HIRAC FUND のコーポレートサイトのリニューアル。', url: 'https://www.hirac.co.jp/', cta: 'サイトを見る', images: 'hirac-hp', color: '#14213D' },
-  { title: 'HIRAC FUND メンバー紹介ブログ', kind: 'Writing', year: '', body: 'HIRAC FUND のメンバーを紹介するブログを執筆。', images: 'hirac-blog', color: '#2B2B29' },
+  { title: 'HIRAC FUND ウェブサイト リニューアル', kind: 'Website', year: '2026.04 — 06', body: 'コーポレートサイトのリニューアルPJを主導。デザイン、バックオフィス、社内の要望をつなぎながら、複数の部署を横断して指揮をとった。', url: 'https://www.hirac.co.jp/', cta: 'サイトを見る', images: 'hirac-hp', color: '#14213D' },
+  { title: 'HIRAC FUND メンバーインタビュー', kind: 'Writing', year: '2026.08 —', body: 'HIRAC FUND のメンバーにインタビューし、紹介記事を執筆している。', images: 'hirac-blog', color: '#2B2B29' },
   { title: '三田春日神社 例大祭2023', kind: 'Video', year: '2023', body: '3年に1度の、三田春日神社の例大祭の映像。灼熱の中初めて長時間動画を撮り編集する経験。', youtube: 'https://www.youtube.com/watch?v=mlkUUPkw58c' },
   { title: '運動会 青組パンフレット', kind: 'Print', year: '2024', body: '開成の運動会で、自分の組・青組のパンフレットをつくった。', images: 'aogumi-pamphlet', color: '#1F3E8C' },
 ];

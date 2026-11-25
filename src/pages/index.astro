@@ -401,7 +401,8 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
   .media .play { position: absolute; left: 16px; bottom: 16px; width: 56px; height: 56px; border-radius: 50%; background: var(--red); display: flex; align-items: center; justify-content: center; }
   .media .pages { position: absolute; right: 12px; bottom: 10px; font: 400 11px var(--f-mono); color: #F3EFE6; }
   .media.type span { font: 400 clamp(28px, 4vw, 40px)/1.1 var(--f-display); color: #F3EFE6; padding: 24px; text-align: center; }
-  .media.shot { background: #1C1A18; cursor: pointer; }
+  .media.shot { background: #1C1A18; cursor: pointer; outline: 1px solid var(--line); outline-offset: -1px; }
+
   button.media.shot { cursor: zoom-in; }
   .media.shot img { width: 100%; height: 100%; object-fit: cover; object-position: top center; transition: transform 0.4s ease; }
   .media.shot:hover img { transform: scale(1.03); }

@@ -211,7 +211,7 @@
       "label": "Kenya",
       "note": "",
       "year": "2026",
-      "period": "2026",
+      "period": "2026.09",
       "camera": "iPhone 17 Pro",
       "frames": [
         {
@@ -661,6 +661,20 @@
         "title": "contents",
         "thumb": "/photos-built/works/aogumi-pamphlet/02-contents-800.webp",
         "full": "/photos-built/works/aogumi-pamphlet/02-contents-2400.webp"
+      }
+    ],
+    "hirac-blog": [
+      {
+        "title": "",
+        "thumb": "/photos-built/works/hirac-blog/1-800.webp",
+        "full": "/photos-built/works/hirac-blog/1-2400.webp"
+      }
+    ],
+    "hirac-hp": [
+      {
+        "title": "",
+        "thumb": "/photos-built/works/hirac-hp/1-800.webp",
+        "full": "/photos-built/works/hirac-hp/1-2400.webp"
       }
     ],
     "kasuga-3d": [
