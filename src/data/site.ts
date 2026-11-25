@@ -69,9 +69,9 @@ export const issues: Issue[] = [
     id: '2026', tab: '2026 NOW', big: '2026', kicker: 'Issue 2026 · Now', theme: '外に出て、つくりはじめた年。', tone: '#26221E',
     lines: [
       { k: 'Podcast', v: 'noisystudyroom — 友人と、人生をふかぼる' },
-      { k: 'Photographs', v: '東京・パリ・ナイロビを、オールドレンズで' },
-      { k: 'Journeys', v: 'Sciences Po と、ケニアの電子決済' },
-      { k: 'Works', v: 'QUIET FLIGHT' },
+      { k: 'Photographs', v: '東京・パリ・ロンドン・ケニアを、オールドレンズで' },
+      { k: 'Journeys', v: 'Sciences Po での学びと、ケニアのスタディツアー' },
+      { k: 'Works', v: 'QUIET FLIGHTやLecture Tracker作成' },
     ],
     entries: [
       { m: '02–03', tag: 'Journey', title: 'Sciences Po, Paris', body: 'Spring school で EU affairs を。EU経済と物流を学ぶ。' },
