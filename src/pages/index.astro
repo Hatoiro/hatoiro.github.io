@@ -16,11 +16,14 @@ const fmt = (d: string) => d ? d.slice(0, 10).replaceAll('-', '.') : '';
 const covers = photos.covers as Record<string, string>;
 const workImages = (photos as { works?: Record<string, { thumb: string; full: string; title: string }[]> }).works ?? {};
 const ytId = (u = '') => (u.match(/(?:v=|youtu\.be\/|\/live\/|\/shorts\/|\/embed\/)([\w-]{11})/) || [])[1];
-type MapRoll = { id: string; label: string; year?: string; period?: string; frames: { thumb: string; full: string }[] };
-const trips = (photos.rolls as MapRoll[]).filter((r) => r.year && r.frames.length).map((r) => {
+type MapRoll = { id: string; label: string; year?: string; period?: string; note?: string; frames: { thumb: string; full: string }[] };
+// 日付のある旅（新しい順）→ 日付のないロール（Kanto・High School など）の順
+const mapRolls = (photos.rolls as MapRoll[]).filter((r) => r.frames.length);
+const trips = [...mapRolls.filter((r) => r.year), ...mapRolls.filter((r) => !r.year)].map((r) => {
   const j = journeys[r.id] ?? {};
-  return { id: r.id, name: j.title ?? r.label, period: j.period ?? r.period ?? r.year, place: j.place ?? '', img: r.frames[0].full, count: r.frames.length, learnings: j.learnings?.length ?? 0 };
+  return { id: r.id, name: j.title ?? r.label, period: j.period ?? (r.period || r.note || ''), place: j.place ?? '', img: r.frames[0].full, count: r.frames.length, learnings: j.learnings?.length ?? 0 };
 });
+const MAP_FIRST = 4; // トップで最初に見せる数。残りは「もっと見る」で開く
 const featShotKey = (featuredWork as { images?: string }).images;
 const featShot = featShotKey ? workImages[featShotKey]?.[0] : undefined;
 const shownWorks = works.filter((w) => (w.kind === 'Video' ? !!ytId(w.youtube) : true));
@@ -122,9 +125,9 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
           </div>
           <p class="lede">{hub.mapLede}</p>
         </div>
-        <ul class="trips">
-          {trips.map((t) => (
-            <li>
+        <ul class="trips" id="trips">
+          {trips.map((t, i) => (
+            <li class={i >= MAP_FIRST ? 'more' : ''}>
               <a href={`/darkroom/${t.id}/`}>
                 <span class="trip-img"><img src={t.img} alt="" loading="lazy" /></span>
                 <span class="trip-name">{t.name}</span>
@@ -134,6 +137,11 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
             </li>
           ))}
         </ul>
+        {trips.length > MAP_FIRST && (
+          <button type="button" class="more-btn" aria-controls="trips" aria-expanded="false" data-more={`もっと見る（あと ${trips.length - MAP_FIRST}）`} data-less="閉じる">
+            もっと見る（あと {trips.length - MAP_FIRST}）
+          </button>
+        )}
       </section>
     )}
 
@@ -249,6 +257,16 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
 </Base>
 
 <script>
+  document.querySelectorAll<HTMLButtonElement>('.more-btn').forEach((b) => {
+    const list = document.getElementById(b.getAttribute('aria-controls') ?? '');
+    b.addEventListener('click', () => {
+      const open = b.getAttribute('aria-expanded') !== 'true';
+      b.setAttribute('aria-expanded', String(open));
+      list?.classList.toggle('open', open);
+      b.textContent = (open ? b.dataset.less : b.dataset.more) ?? '';
+      if (!open) list?.scrollIntoView({ block: 'start' });
+    });
+  });
   const btns = document.querySelectorAll<HTMLButtonElement>('[data-issue]');
   const root = document.documentElement;
   const show = (id: string) => {
@@ -346,6 +364,11 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
   .trip-meta { font: 400 12px var(--f-mono); color: var(--muted); }
   .trip-tags { display: flex; gap: 8px; font: 400 11px var(--f-mono); }
   .trip-tags span { padding: 3px 8px; border: 1px solid var(--line); }
+  .trips li.more { display: none; }
+  .trips.open li.more { display: block; animation: rise 0.45s ease both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(12px); } }
+  .more-btn { display: block; margin: 40px auto 0; padding: 14px 28px; border: 1px solid var(--ink); background: none; color: var(--ink); font: 400 12px var(--f-mono); letter-spacing: 0.12em; cursor: pointer; transition: background 0.2s, color 0.2s; }
+  .more-btn:hover { background: var(--ink); color: var(--ivory); }
   .trip-tags .learn { border-color: var(--red); color: var(--red); }
   .archive-title { margin-bottom: 48px; }
   .chron { display: flex; flex-wrap: wrap; gap: 48px; }
