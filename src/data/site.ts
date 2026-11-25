@@ -28,8 +28,8 @@ export const socials = [
 
 export const podcast = {
   name: 'noisystudyroom',
-  tagline: '友人を呼んで、人生を深掘る。',
-  about: '身の回りの面白いゲストを連れてきてインタビューする、30分ほどの質素なpodcast。YouTube と Spotify で配信している。',
+  tagline: '',
+  about: '身の回りの面白い友人を連れてきてインタビューする、30分ほどの質素なpodcast。YouTube と Spotify で配信している。',
   youtube: 'https://www.youtube.com/@noisystudyroom',
   spotify: 'https://open.spotify.com/show/033XrQOUG2qLNHDLtBC7ce?si=SnCsfoHgSGGGCCxTv_u6Cw',
 };
@@ -44,8 +44,8 @@ export const issues: Issue[] = [
   {
     id: 'pre', tab: '〜2024', big: '’24', kicker: 'Back issues · 〜2024', theme: 'ここまでのこと。', tone: '#3E3A34',
     lines: [
-      { k: 'Kaisei', v: '開成高校へ' },
-      { k: 'Summer school', v: 'Choate Rosemary Hall で経済を' },
+      { k: 'Kaisei', v: 'Entaring Kaisei High' },
+      { k: 'Summer school', v: 'studied Economics at Choate Rosemary Hall' },
     ],
     entries: [
       { m: '2022.04', tag: 'Education', title: '開成高校 入学' },
@@ -55,9 +55,9 @@ export const issues: Issue[] = [
   {
     id: '2025', tab: '2025', big: '2025', kicker: 'Issue 2025', theme: '東京大学へ。投資の現場へ。', tone: '#2E3136',
     lines: [
-      { k: 'Graduation', v: '開成高校、卒業' },
-      { k: 'University', v: '東京大学入学' },
-      { k: 'Venture capital', v: 'HIRAC FUND でインターン開始' },
+      { k: 'Graduation', v: 'Graduated Kaisei High' },
+      { k: 'University', v: 'Entaring UTokyo' },
+      { k: 'Venture capital', v: 'started working as an intern at HIRAC FUND' },
     ],
     entries: [
       { m: '03', tag: 'Education', title: '開成高校 卒業' },
