@@ -1,0 +1,57 @@
+/* 石黒晴翔 — design tokens
+   VOICE: a personal archive that reads like a fashion magazine — calm, confident, a little playful.
+   IDEA: every year is an issue; the darkroom is where photographs live.
+   COLOUR: ivory / ink / darkroom red. Night sections go dark.
+   TYPE: Murecho only — weight does the work (200 for big numerals, 900 for names).
+   LAYOUT: 1240px content, full-bleed bands, generous air. */
+
+:root {
+  --ivory: #F3EFE6;
+  --ink: #111010;
+  --red: #B5341C;
+  --red-on-dark: #FF6A4D;
+  --muted: #5C5850;
+  --muted-on-dark: #A8A39A;
+  --line: #CFC9BC;
+  --line-on-dark: #3A3833;
+  --font: 'Murecho', system-ui, -apple-system, 'Hiragino Sans', sans-serif;
+  --w-thin: 200;
+  --w-text: 400;
+  --w-bold: 700;
+  --w-black: 900;
+  --max: 1240px;
+  --pad: clamp(20px, 4vw, 40px);
+}
+
+* { box-sizing: border-box; min-width: 0; }
+html { scroll-padding-top: 80px; -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--ivory); color: var(--ink); font: var(--w-text) 16px/1.75 var(--font); overflow-x: clip; }
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+a:hover { color: var(--red); }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
+[hidden] { display: none !important; }
+
+.wrap { max-width: var(--max); margin: 0 auto; padding-inline: var(--pad); }
+.kicker { margin: 0; font-size: 13px; font-weight: var(--w-bold); letter-spacing: 0.04em; color: var(--red); }
+.dark .kicker { color: var(--red-on-dark); }
+.dark { background: var(--ink); color: #EDE9DF; }
+.dark a:hover { color: var(--red-on-dark); }
+
+.btn { min-height: 48px; padding: 0 22px; display: inline-flex; align-items: center; gap: 8px; border: 1px solid currentColor; text-decoration: none; font-size: 15px; font-weight: var(--w-bold); background: transparent; cursor: pointer; }
+.btn.solid { background: var(--ink); color: var(--ivory); border-color: var(--ink); }
+.dark .btn.solid { background: #EDE9DF; color: var(--ink); border-color: #EDE9DF; }
+.btn.solid:hover { color: var(--ivory); opacity: 0.85; }
+.dark .btn.solid:hover { color: var(--ink); }
+
+.pill { min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid currentColor; background: transparent; cursor: pointer; font-size: 14px; }
+.pill[aria-pressed="true"] { background: var(--ink); color: var(--ivory); border-color: var(--ink); }
+.dark .pill[aria-pressed="true"] { background: #EDE9DF; color: var(--ink); border-color: #EDE9DF; }
+
+.sec-title { margin: 8px 0 0; font-size: clamp(44px, 8vw, 104px); font-weight: var(--w-black); line-height: 0.95; letter-spacing: -0.02em; }
+.sec-title .thin { font-weight: var(--w-thin); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

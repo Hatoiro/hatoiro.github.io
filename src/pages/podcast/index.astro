@@ -1,0 +1,47 @@
+---
+import Base from '../../layouts/Base.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import { podcast } from '../../data/site';
+import episodes from '../../data/episodes.json';
+type Ep = { id: string; title: string; published: string; thumbnail: string; url: string };
+const eps = episodes as Ep[];
+const fmt = (d: string) => d.slice(0, 10).replaceAll('-', '.');
+---
+<Base title="Podcast" description={`${podcast.name} — ${podcast.tagline}${podcast.about}`}>
+  <SiteHeader />
+  <main class="wrap page">
+    <p class="kicker">● Podcast</p>
+    <h1 class="sec-title">noisy<span class="thin">studyroom</span></h1>
+    <p class="lede">{podcast.about}</p>
+    <p class="btns">
+      <a class="btn solid" href={podcast.youtube}>YouTube チャンネル</a>
+      {podcast.spotify && <a class="btn" href={podcast.spotify}>Spotify</a>}
+    </p>
+    {eps.length === 0 ? (
+      <p class="empty">エピソードは YouTube から毎日自動で取り込まれます。</p>
+    ) : (
+      <ol class="list">
+        {eps.map((e) => (
+          <li><a href={e.url}>
+            <img src={e.thumbnail} alt="" loading="lazy" />
+            <span class="d">{fmt(e.published)}</span>
+            <span class="t">{e.title}</span>
+          </a></li>
+        ))}
+      </ol>
+    )}
+  </main>
+  <SiteFooter />
+</Base>
+<style>
+  .page { padding-block: clamp(64px, 9vw, 112px); }
+  .lede { max-width: 560px; margin: 20px 0 24px; }
+  .btns { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 56px; }
+  .empty { color: var(--muted); }
+  .list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr)); gap: 32px 24px; }
+  .list a { display: flex; flex-direction: column; gap: 8px; text-decoration: none; border-top: 1px solid var(--ink); padding-top: 14px; }
+  .list img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: #1C1A18; }
+  .d { font-size: 12px; color: var(--muted); }
+  .t { font-size: 16px; font-weight: var(--w-bold); line-height: 1.5; }
+</style>

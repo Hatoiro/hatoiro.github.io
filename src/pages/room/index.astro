@@ -1,0 +1,132 @@
+---
+import Base from '../../layouts/Base.astro';
+import { podcast, instagram, featuredWork, lab } from '../../data/site';
+import episodes from '../../data/episodes.json';
+import pos2d from '../../data/room-2d-spots.json';
+
+const latest = (episodes as { title: string; published: string; url: string }[])[0];
+type Link = { label: string; href: string; primary?: boolean };
+type Panel = { kicker: string; title: string; body: string; items: { t: string; s?: string }[]; links: Link[] };
+const L = (label: string, href: string, primary = false): Link => ({ label, href, primary });
+const latestItem = latest ? [{ t: latest.title, s: `最新回 · ${latest.published.slice(0, 10).replaceAll('-', '.')}` }] : [];
+
+const panels: Record<string, Panel> = {
+  welcome: { kicker: 'Welcome', title: 'ようこそ、\n晴翔の部屋へ。', body: '光っている物をタップすると、その物にまつわる話が開きます。ドラッグで部屋を回して、ホイールかピンチで寄れます。', items: [], links: [L('ハブで一覧を見る', '/')] },
+  mic: { kicker: 'Desk — microphone', title: podcast.name, body: podcast.about, items: latestItem,
+    links: [L('YouTube で見る', latest?.url ?? podcast.youtube, true), ...(podcast.spotify ? [L('Spotify で聴く', podcast.spotify)] : []), L('全エピソード', '/podcast/')] },
+  camera: { kicker: 'Cabinet — Nikon F3 / Canon EOS R', title: 'Photographs', body: 'フィルムの Nikon F3 と、デジタルの Canon EOS R。オールドレンズをつけて、東京・パリ・ナイロビを撮る。', items: [{ t: 'Nikon F3', s: 'フィルム' }, { t: 'Canon EOS R', s: 'デジタル · オールドレンズで' }],
+    links: [L('暗室で写真を見る', '/photos/', true), ...(instagram.url ? [L(`Instagram @${instagram.handle}`, instagram.url)] : [])] },
+  turntable: { kicker: 'Cabinet — turntable', title: 'Now spinning', body: 'キャビネットの上のターンテーブル。いま回っているのは――', items: [{ t: 'Kiss All the Time, Disco Occasionally', s: 'Harry Styles' }], links: [] },
+  pc: { kicker: 'Desk — MacBook', title: 'Works', body: '机のパソコンで、つくっているもの。', items: [{ t: featuredWork.title, s: '公開中' }, ...lab.map((w) => ({ t: w.title, s: w.note }))],
+    links: [L(`${featuredWork.title} に${featuredWork.cta.replace('する', '')}`, featuredWork.url, true), L('作品一覧', '/#works')] },
+  guitar: { kicker: 'Corner — guitars', title: 'Music', body: 'レスポールタイプのエレキ（青）と、ヤマハのアコギ（茶）。', items: [], links: [] },
+  piano: { kicker: 'Left wall — Yamaha upright', title: 'Piano & Records', body: 'コンパクトなヤマハのアップライトピアノ。最近はあまり弾いていなくて、上はレコードと地球儀の置き場になっている。', items: [{ t: 'Harry Styles' }, { t: 'SZA' }], links: [] },
+  map: { kicker: 'Wall — world map', title: 'Journeys', body: '学びに行った場所に、ピンを刺している。', items: [{ t: 'Paris — 2026 Spring', s: 'Sciences Po の Spring school で EU affairs' }, { t: 'Nairobi — 2026 Autumn', s: '現地の経済と電子決済を見に' }, { t: 'Tokyo', s: 'ホーム' }], links: [L('年譜で見る', '/#chronicle')] },
+  racket: { kicker: 'Wall — racket', title: 'Tennis', body: 'ピアノの上、地図の横に掛けてある。テニスサークル ALLDC で。', items: [], links: [] },
+  globe: { kicker: 'Piano top — globe', title: 'Next', body: '次は、どこへ行こう。', items: [], links: [] },
+  clock: { kicker: 'Wall — clock', title: '', body: '壁の時計は、東京の今の時刻を指している。', items: [], links: [] },
+  books: { kicker: 'Shelf — books', title: 'Chronicle', body: '本棚は年譜。本当は天井まである本棚を、部屋が見えるように低く切っている。', items: [{ t: '2022', s: '開成高校 入学 · Choate Rosemary Hall のサマースクール' }, { t: '2025', s: '東京大学 入学 · HIRAC FUND でインターン開始' }, { t: '2026', s: 'パリ、ナイロビ、QUIET FLIGHT' }], links: [L('年譜をひらく', '/#chronicle', true), L('プロフィール', '/about/')] },
+  window: { kicker: 'Window — Tokyo', title: 'Now', body: '窓の外は、東京の今の時間。いま取り組んでいること。', items: [{ t: '学んでいること', s: '東京大学 · 経済（2年）' }, { t: 'つくっているもの', s: '三田春日神社 3D' }, ...(latest ? [{ t: '最新回', s: latest.title }] : [])], links: [] },
+  door: { kicker: 'Door', title: '部屋を出る', body: 'ハブに戻って、ぜんぶを一覧で見る。', items: [], links: [L('ハブへ戻る', '/', true), L('プロフィール', '/about/')] },
+};
+const order = ['mic', 'camera', 'turntable', 'pc', 'guitar', 'piano', 'map', 'racket', 'globe', 'clock', 'books', 'window', 'door'];
+const names = { mic: 'マイク', camera: 'カメラ', turntable: 'ターンテーブル', pc: 'パソコン', guitar: 'ギター', piano: 'ピアノとレコード', map: '世界地図', racket: 'ラケット', globe: '地球儀', clock: '時計', books: '本棚', window: '窓', door: 'ドア' };
+const data = JSON.stringify({ panels, order, names, pos2d }).replace(/</g, '\\u003c');
+---
+<Base title="晴翔の部屋" description="石黒晴翔の部屋を、3Dで歩き回る。物をタップすると、その物にまつわる話が開く。" bodyClass="room-page">
+  <div class="app">
+    <header class="bar">
+      <a href="/" class="brand"><span class="t">晴翔の部屋</span><span class="s">Haruto Ishiguro</span></a>
+      <div class="ctrls">
+        <div class="seg" role="group" aria-label="時間帯">
+          <button type="button" data-tod="morning" aria-pressed="false">朝</button>
+          <button type="button" data-tod="day" aria-pressed="false">昼</button>
+          <button type="button" data-tod="night" aria-pressed="false">夜</button>
+        </div>
+        <button type="button" class="rpill" id="mode" hidden>2Dで見る</button>
+        <a class="rpill" href="/">ハブへ</a>
+      </div>
+    </header>
+    <main class="stage" id="stage">
+      <div id="view"></div>
+      <div class="loading" id="loading">部屋を組み立てています…</div>
+      <div class="tools"><button type="button" class="rpill" id="reset">全体を見る</button><span id="hint"></span></div>
+    </main>
+    <aside class="panel" id="panel" aria-live="polite">
+      <button type="button" class="rpill" id="sheet-close">← 部屋に戻る</button>
+      <p class="pkicker" id="p-kicker"></p>
+      <h1 class="ptitle" id="p-title"></h1>
+      <p class="pbody" id="p-body"></p>
+      <ul class="items" id="p-items"></ul>
+      <div class="links" id="p-links"></div>
+      <nav class="index" aria-label="部屋の物の一覧"><p>一覧から選ぶ</p><div id="chips"></div></nav>
+    </aside>
+  </div>
+  <script type="application/json" id="room-data" set:html={data}></script>
+</Base>
+
+<script>
+  import '../../scripts/room/app.js';
+</script>
+
+<style is:global>
+  .room-page { --bg: #F3EFE6; --fg: #111010; --rmuted: #5C5850; --rline: #CFC9BC; --accent: #B5341C; height: 100%; overflow: hidden; background: var(--bg); color: var(--fg); transition: background 0.8s, color 0.8s; }
+  :root[data-tod=morning] .room-page { --bg: #F5EEE2; }
+  :root[data-tod=night] .room-page { --bg: #15161C; --fg: #EDE9DF; --rmuted: #A6A8B4; --rline: #33343F; --accent: #FF6A4D; }
+  html:has(.room-page) { height: 100%; }
+  .room-page .app { display: grid; grid-template-columns: minmax(0, 1fr) 380px; grid-template-rows: auto minmax(0, 1fr); height: 100dvh; }
+  .room-page .bar { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 24px; border-bottom: 1px solid var(--rline); }
+  .room-page .brand { display: flex; align-items: baseline; gap: 12px; text-decoration: none; }
+  .room-page .brand .t { font-size: 24px; font-weight: 900; letter-spacing: 0.08em; }
+  .room-page .brand .s { font-size: 14px; font-weight: 200; color: var(--rmuted); }
+  .room-page .ctrls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .room-page .seg { display: flex; gap: 4px; padding: 4px; border: 1px solid var(--rline); border-radius: 999px; }
+  .room-page .seg button { min-height: 38px; min-width: 56px; padding: 0 14px; border: 0; border-radius: 999px; background: transparent; cursor: pointer; font-size: 14px; font-weight: 700; }
+  .room-page .seg button[aria-pressed=true] { background: var(--fg); color: var(--bg); }
+  .room-page .rpill { min-height: 44px; padding: 0 18px; display: inline-flex; align-items: center; border: 1px solid currentColor; border-radius: 999px; background: transparent; cursor: pointer; font-size: 14px; text-decoration: none; color: inherit; }
+  .room-page .stage { position: relative; overflow: hidden; }
+  .room-page #view { position: absolute; inset: 0; }
+  .room-page #view canvas.gl { position: absolute; inset: 0; display: block; touch-action: none; cursor: grab; }
+  .room-page .spots3d { position: absolute; inset: 0; pointer-events: none; }
+  .room-page .spot { position: absolute; left: 0; top: 0; width: 44px; height: 44px; padding: 0; border: 0; background: transparent; cursor: pointer; pointer-events: auto; display: flex; align-items: center; justify-content: center; }
+  .room-page .dot { width: 12px; height: 12px; border-radius: 50%; background: #B5341C; border: 2px solid #F3EFE6; animation: rpulse 1.8s infinite; transition: width 0.2s, height 0.2s; }
+  .room-page .spot[aria-pressed=true] .dot { width: 18px; height: 18px; }
+  .room-page .lbl { position: absolute; bottom: 40px; left: 50%; transform: translate(-50%, 4px); padding: 4px 10px; background: #111010; color: #F3EFE6; font-size: 13px; font-weight: 700; white-space: nowrap; opacity: 0; transition: opacity 0.2s, transform 0.2s; pointer-events: none; }
+  .room-page .spot:hover .lbl, .room-page .spot:focus-visible .lbl, .room-page .spot[aria-pressed=true] .lbl { opacity: 1; transform: translate(-50%, 0); }
+  @keyframes rpulse { 0% { box-shadow: 0 0 0 0 rgba(181, 52, 28, 0.55); } 100% { box-shadow: 0 0 0 14px rgba(181, 52, 28, 0); } }
+  .room-page .fig2d { position: absolute; inset: 16px; display: flex; align-items: center; justify-content: center; }
+  .room-page .room2d { position: relative; line-height: 0; max-width: 100%; }
+  .room-page .room2d img { display: block; max-width: 100%; max-height: calc(100dvh - 130px); height: auto; }
+  .room-page .spots2d { position: absolute; inset: 0; pointer-events: none; }
+  .room-page .spots2d .spot { pointer-events: auto; }
+  .room-page .tools { position: absolute; left: 16px; bottom: 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; pointer-events: none; }
+  .room-page .tools .rpill { pointer-events: auto; background: var(--bg); }
+  .room-page #hint { font-size: 13px; color: var(--rmuted); }
+  .room-page .loading { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 200; color: var(--rmuted); background: var(--bg); }
+  .room-page .panel { background: #111010; color: #EDE9DF; padding: 28px; display: flex; flex-direction: column; gap: 20px; overflow: auto; }
+  :root[data-tod=night] .room-page .panel { background: #0B0B0E; }
+  .room-page .pkicker { margin: 0; font-size: 13px; font-weight: 700; color: #FF6A4D; }
+  .room-page .ptitle { margin: 0; font-size: 40px; font-weight: 200; line-height: 1.2; letter-spacing: -0.01em; text-wrap: balance; white-space: pre-line; }
+  .room-page .pbody { margin: 0; font-size: 15px; line-height: 1.9; color: #CFCAC0; }
+  .room-page .items { list-style: none; margin: 0; padding: 0; border-top: 1px solid #3A3833; }
+  .room-page .items li { display: flex; flex-direction: column; gap: 2px; padding: 12px 0; border-bottom: 1px solid #3A3833; }
+  .room-page .items span { font-size: 13px; color: #A8A39A; }
+  .room-page .links { display: flex; flex-wrap: wrap; gap: 8px; }
+  .room-page .links .btn { min-height: 44px; padding: 0 18px; display: inline-flex; align-items: center; border: 1px solid #EDE9DF; color: #EDE9DF; text-decoration: none; font-size: 14px; font-weight: 700; }
+  .room-page .links .btn.primary { background: #EDE9DF; color: #111010; }
+  .room-page .index { margin-top: auto; padding-top: 18px; border-top: 1px solid #3A3833; display: flex; flex-direction: column; gap: 10px; }
+  .room-page .index p { margin: 0; font-size: 13px; color: #A8A39A; }
+  .room-page #chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .room-page .chip { min-height: 36px; padding: 0 12px; border-radius: 999px; border: 1px solid #4A4740; background: transparent; color: #EDE9DF; cursor: pointer; font-size: 13px; }
+  .room-page .chip[aria-pressed=true] { background: #EDE9DF; color: #111010; }
+  .room-page #sheet-close { display: none; }
+  @media (max-width: 900px) {
+    .room-page .app { grid-template-columns: minmax(0, 1fr); }
+    .room-page .brand .t { font-size: 20px; }
+    .room-page .panel { position: fixed; left: 0; right: 0; bottom: 0; max-height: 24dvh; padding: 18px 20px; border-radius: 18px 18px 0 0; transition: max-height 0.35s; z-index: 5; }
+    .room-page.sheet-open .panel { max-height: 62dvh; }
+    .room-page .ptitle { font-size: 30px; }
+    .room-page #sheet-close { display: inline-flex; align-self: flex-start; }
+    .room-page .tools { bottom: calc(24dvh + 12px); }
+  }
+</style>

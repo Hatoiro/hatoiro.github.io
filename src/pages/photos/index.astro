@@ -1,0 +1,25 @@
+---
+import Base from '../../layouts/Base.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import Darkroom from '../../components/Darkroom.astro';
+import { instagram } from '../../data/site';
+---
+<Base title="Darkroom" description="石黒晴翔の写真。Canon EOS R と Nikon F3、オールドレンズで撮った東京・パリ・ナイロビ。">
+  <SiteHeader />
+  <main class="dark page">
+    <div class="wrap">
+      <p class="kicker">▸ Darkroom — Photographs</p>
+      <h1 class="sec-title">Dark<span class="thin">room</span></h1>
+      <p class="lede">Canon EOS R と Nikon F3、オールドレンズで撮ったもの。ロールを選んで、コマをタップするとルーペで拡大される。</p>
+      <Darkroom full />
+      {instagram.url && <p class="ig"><a class="btn solid" href={instagram.url}>Instagram @{instagram.handle}</a></p>}
+    </div>
+  </main>
+  <SiteFooter />
+</Base>
+<style>
+  .page { padding-block: clamp(64px, 9vw, 112px); min-height: 80vh; }
+  .lede { max-width: 560px; margin: 20px 0 40px; color: #CFCAC0; }
+  .ig { margin-top: 48px; }
+</style>

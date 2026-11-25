@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+---
+<Base title="Not found">
+  <SiteHeader />
+  <main class="wrap page">
+    <p class="kicker">404</p>
+    <h1 class="sec-title">このコマは、<br /><span class="thin">まだ現像されていない。</span></h1>
+    <p><a class="btn solid" href="/">表紙に戻る</a></p>
+  </main>
+</Base>
+<style>.page { padding-block: 120px; min-height: 70vh; } p { margin-top: 40px; }</style>

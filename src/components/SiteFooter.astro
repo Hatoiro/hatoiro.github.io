@@ -1,0 +1,30 @@
+---
+import { socials, profile } from '../data/site';
+const year = new Date().getFullYear();
+---
+<footer class="site-footer dark" id="contact">
+  <div class="wrap">
+    <p class="kicker">Elsewhere</p>
+    <ul class="links">
+      {socials.map((s) => (
+        <li><a href={s.url} rel="me noopener"><span class="n">{s.name}</span><span class="h">{s.handle} ↗</span></a></li>
+      ))}
+      <li><a href="/room/"><span class="n">Room</span><span class="h">晴翔の部屋 ↗</span></a></li>
+    </ul>
+    <div class="end">
+      <p class="big">{profile.nameJa}</p>
+      <p class="small">© {year} {profile.nameEn}</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer { padding-block: 88px 48px; }
+  .links { list-style: none; margin: 20px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); border-top: 1px solid var(--line-on-dark); }
+  .links a { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; min-height: 72px; padding: 20px 16px 20px 0; border-bottom: 1px solid var(--line-on-dark); text-decoration: none; }
+  .n { font-size: 28px; font-weight: var(--w-thin); }
+  .h { font-size: 13px; color: var(--muted-on-dark); }
+  .end { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px; margin-top: 96px; }
+  .big { margin: 0; font-size: clamp(56px, 11vw, 120px); font-weight: var(--w-black); letter-spacing: 0.1em; line-height: 1; }
+  .small { margin: 0; font-size: 13px; color: var(--muted-on-dark); }
+</style>

@@ -1,0 +1,256 @@
+---
+import Base from '../layouts/Base.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import Darkroom from '../components/Darkroom.astro';
+import { profile, podcast, instagram, issues, currentIssue, featuredWork, lab } from '../data/site';
+import episodes from '../data/episodes.json';
+
+type Ep = { id: string; title: string; published: string; thumbnail: string; url: string };
+const eps = episodes as Ep[];
+const latest = eps[0];
+const recent = eps.slice(1, 5);
+const fmt = (d: string) => d ? d.slice(0, 10).replaceAll('-', '.') : '';
+const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d: ((i * 0.07) % 1.3).toFixed(2) }));
+---
+<Base>
+  <SiteHeader />
+  <main>
+    <!-- ===== Cover: each year is an issue ===== -->
+    <section class="wrap cover-wrap" aria-label="表紙">
+      {issues.map((iss) => (
+        <div class="cover" data-issue-panel={iss.id} hidden={iss.id !== currentIssue} style={`--tone:${iss.tone}`}>
+          <div class="cover-top"><span>The Haruto Ishiguro Archive</span><span>{iss.kicker}</span></div>
+          <h1 class="masthead">Haruto<br />Ishiguro</h1>
+          <ol class="lines">
+            {iss.lines.map((l) => <li><span class="k">{l.k}</span><span class="v">{l.v}</span></li>)}
+          </ol>
+          <p class="big-year" aria-hidden="true">{iss.big}</p>
+          <p class="vert" aria-hidden="true">{profile.nameJa}</p>
+        </div>
+      ))}
+      <div class="issue-tabs" role="group" aria-label="号を選ぶ">
+        <span class="back">Back issues ←</span>
+        {issues.map((iss) => (
+          <button type="button" class="pill" data-issue={iss.id} aria-pressed={iss.id === currentIssue ? 'true' : 'false'}>{iss.tab}</button>
+        ))}
+      </div>
+    </section>
+
+    <!-- ===== Podcast ===== -->
+    <section id="podcast" class="wrap band">
+      <div class="head">
+        <div>
+          <p class="kicker">● Now playing — Podcast</p>
+          <h2 class="sec-title">noisy<span class="thin">studyroom</span></h2>
+        </div>
+        <p class="lede">{podcast.tagline}{podcast.about.replace(podcast.tagline, '')}</p>
+      </div>
+      <div class="pod">
+        <a class="pod-thumb" href={latest?.url ?? podcast.youtube}>
+          {latest ? <img src={latest.thumbnail} alt="" loading="lazy" /> : <span class="pod-ph">noisystudyroom</span>}
+          <span class="play" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="#F3EFE6"></path></svg></span>
+        </a>
+        <div class="pod-side">
+          <div>
+            <p class="pod-meta">{latest ? `最新回 · ${fmt(latest.published)}` : '最新回'}</p>
+            <h3 class="pod-title">{latest?.title ?? '最新回は YouTube で'}</h3>
+          </div>
+          <div class="eq" aria-hidden="true">{bars.map((b) => <span style={`height:${b.h}%;animation-delay:${b.d}s`}></span>)}</div>
+          <div class="btns">
+            <a class="btn solid" href={latest?.url ?? podcast.youtube}>YouTube で見る</a>
+            {podcast.spotify && <a class="btn" href={podcast.spotify}>Spotify で聴く</a>}
+            <a class="btn" href="/podcast/">全エピソード</a>
+          </div>
+        </div>
+      </div>
+      {recent.length > 0 && (
+        <ul class="eps">
+          {recent.map((e) => (
+            <li><a href={e.url}><img src={e.thumbnail} alt="" loading="lazy" /><span class="d">{fmt(e.published)}</span><span class="t">{e.title}</span></a></li>
+          ))}
+        </ul>
+      )}
+    </section>
+
+    <!-- ===== Darkroom ===== -->
+    <section id="photos" class="dark darkroom-band">
+      <div class="wrap">
+        <div class="head">
+          <div>
+            <p class="kicker">▸ Darkroom — Photographs</p>
+            <h2 class="sec-title">Dark<span class="thin">room</span></h2>
+          </div>
+          <p class="lede">Canon EOS R と Nikon F3、オールドレンズで撮ったもの。良いコマには赤丸を。</p>
+        </div>
+        <Darkroom />
+        <div class="insta">
+          <div class="insta-text">
+            <p class="kicker">Instagram</p>
+            <p class="insta-title">毎日のコマは、<br />Instagram で。</p>
+            {instagram.url ? <a class="btn solid" href={instagram.url}>@{instagram.handle} をフォロー</a> : <p class="soon">アカウントは近日公開。</p>}
+            <a class="btn" href="/photos/">暗室をぜんぶ見る</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Chronicle ===== -->
+    <section id="chronicle" class="wrap band">
+      <div class="chron">
+        <div class="chron-side">
+          <div class="sticky">
+            <p class="kicker">Chronicle — 年譜</p>
+            {issues.map((iss) => (
+              <div data-issue-panel={iss.id} hidden={iss.id !== currentIssue}>
+                <p class="chron-year">{iss.big}</p>
+                <p class="chron-theme">{iss.theme}</p>
+              </div>
+            ))}
+            <div class="chron-tabs" role="group" aria-label="年を選ぶ">
+              {issues.map((iss) => <button type="button" class="pill" data-issue={iss.id} aria-pressed={iss.id === currentIssue ? 'true' : 'false'}>{iss.tab}</button>)}
+            </div>
+          </div>
+        </div>
+        <div class="chron-list">
+          {issues.map((iss) => (
+            <ol data-issue-panel={iss.id} hidden={iss.id !== currentIssue}>
+              {iss.entries.map((e) => (
+                <li>
+                  <span class="m">{e.m}</span>
+                  <div><span class="tag">{e.tag}</span><h3>{e.title}</h3>{e.body && <p>{e.body}</p>}</div>
+                </li>
+              ))}
+            </ol>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Works ===== -->
+    <section id="works" class="wrap band works">
+      <a class="feature" href={featuredWork.url}>
+        <span class="kicker">Works — Live</span>
+        <span class="feature-name">{featuredWork.title}</span>
+        <span class="feature-body">{featuredWork.body}</span>
+        <span class="feature-cta">{featuredWork.cta} →</span>
+      </a>
+      <div class="lab">
+        <p class="lab-head">Lab — 実験中のもの</p>
+        <ul>
+          {lab.map((w) => <li><span><strong>{w.title}</strong><span>{w.note}</span></span><span class="st">{w.status}</span></li>)}
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== Room ===== -->
+    <a class="room-band" href="/room/">
+      <span class="wrap room-inner">
+        <span>
+          <span class="kicker light">Experience</span>
+          <span class="room-title">晴翔の部屋に、<br />入ってみる。</span>
+          <span class="room-sub">物をタップすると、その物にまつわる話が開く。</span>
+        </span>
+        <span class="btn">部屋へ →</span>
+      </span>
+    </a>
+  </main>
+  <SiteFooter />
+</Base>
+
+<script>
+  const btns = document.querySelectorAll<HTMLButtonElement>('[data-issue]');
+  const show = (id: string) => {
+    document.querySelectorAll<HTMLElement>('[data-issue-panel]').forEach((p) => { p.hidden = p.dataset.issuePanel !== id; });
+    btns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.issue === id)));
+  };
+  btns.forEach((b) => b.addEventListener('click', () => show(b.dataset.issue!)));
+</script>
+
+<style>
+  .cover-wrap { padding-top: 28px; }
+  .cover { position: relative; min-height: min(820px, 92vh); background: var(--tone); color: #F3EFE6; overflow: hidden; padding: 32px clamp(20px, 4vw, 44px) 40px; animation: fade 0.5s ease-out; }
+  @keyframes fade { from { opacity: 0.4; } to { opacity: 1; } }
+  .cover-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .masthead { margin: 14px 0 0; font-size: clamp(64px, 13vw, 176px); font-weight: var(--w-black); line-height: 0.88; letter-spacing: -0.03em; text-transform: uppercase; position: relative; z-index: 1; }
+  .lines { list-style: none; margin: 56px 0 0; padding: 0; max-width: 520px; display: flex; flex-direction: column; gap: 20px; position: relative; z-index: 1; }
+  .lines li { display: flex; flex-direction: column; gap: 2px; }
+  .lines .k { font-size: 12px; font-weight: var(--w-bold); color: var(--red-on-dark); letter-spacing: 0.06em; text-transform: uppercase; }
+  .lines .v { font-size: clamp(22px, 3vw, 30px); font-weight: var(--w-thin); line-height: 1.3; }
+  .big-year { position: absolute; right: 24px; bottom: -0.16em; margin: 0; font-size: clamp(160px, 30vw, 380px); font-weight: var(--w-thin); line-height: 1; color: rgba(243, 239, 230, 0.16); letter-spacing: -0.04em; }
+  .vert { position: absolute; right: 32px; top: 110px; margin: 0; writing-mode: vertical-rl; font-size: 14px; font-weight: var(--w-bold); letter-spacing: 0.5em; }
+  @media (max-width: 700px) { .vert { display: none; } }
+  .issue-tabs { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 16px 0 0; }
+  .issue-tabs .back { font-size: 13px; color: var(--muted); margin-right: 6px; }
+
+  .band { padding-block: clamp(72px, 10vw, 120px); }
+  .head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: 36px; }
+  .lede { margin: 0; max-width: 380px; font-size: 16px; }
+  .pod { display: flex; flex-wrap: wrap; gap: 32px; }
+  .pod-thumb { flex: 999 1 600px; position: relative; aspect-ratio: 16 / 9; background: #1C1A18; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .pod-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .pod-ph { font-size: clamp(32px, 6vw, 64px); font-weight: var(--w-thin); color: #EDE9DF; }
+  .play { position: absolute; left: 28px; bottom: 28px; width: 84px; height: 84px; border-radius: 50%; background: var(--red); display: flex; align-items: center; justify-content: center; transition: transform 0.2s; }
+  .pod-thumb:hover .play { transform: scale(1.06); }
+  .pod-side { flex: 1 1 320px; display: flex; flex-direction: column; justify-content: space-between; gap: 28px; }
+  .pod-meta { margin: 0 0 8px; font-size: 13px; color: var(--muted); }
+  .pod-title { margin: 0; font-size: 26px; font-weight: var(--w-bold); line-height: 1.45; }
+  .eq { display: flex; align-items: center; gap: 3px; height: 64px; }
+  .eq span { flex: 1 1 0; background: var(--ink); transform-origin: center; animation: eq 1.3s ease-in-out infinite; }
+  @keyframes eq { 0%, 100% { transform: scaleY(0.3); } 50% { transform: scaleY(1); } }
+  .btns { display: flex; flex-wrap: wrap; gap: 10px; }
+  .eps { list-style: none; margin: 40px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 24px; }
+  .eps a { display: flex; flex-direction: column; gap: 8px; text-decoration: none; border-top: 1px solid var(--ink); padding-top: 14px; }
+  .eps img { aspect-ratio: 16 / 9; object-fit: cover; width: 100%; }
+  .eps .d { font-size: 12px; color: var(--muted); }
+  .eps .t { font-size: 15px; font-weight: var(--w-bold); line-height: 1.5; }
+
+  .darkroom-band { position: relative; padding-block: clamp(80px, 10vw, 120px); overflow: hidden; }
+  .darkroom-band::before { content: ''; position: absolute; left: 50%; top: -360px; width: 1300px; height: 760px; transform: translateX(-50%); background: radial-gradient(closest-side, rgba(190, 40, 22, 0.22), transparent); pointer-events: none; }
+  .darkroom-band .wrap { position: relative; }
+  .darkroom-band .lede { color: #CFCAC0; }
+  .insta { margin-top: 88px; }
+  .insta-text { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px; }
+  .insta-title { margin: 0; flex: 1 1 280px; font-size: clamp(32px, 5vw, 56px); font-weight: var(--w-thin); line-height: 1.1; }
+  .soon { margin: 0; color: var(--muted-on-dark); }
+
+  .chron { display: flex; flex-wrap: wrap; gap: 48px; }
+  .chron-side { flex: 1 1 300px; }
+  .sticky { position: sticky; top: 96px; }
+  .chron-year { margin: 10px 0 0; font-size: clamp(80px, 10vw, 128px); font-weight: var(--w-thin); line-height: 0.85; letter-spacing: -0.04em; }
+  .chron-theme { margin: 16px 0 0; font-size: 20px; font-weight: var(--w-black); }
+  .chron-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+  .chron-list { flex: 999 1 560px; }
+  .chron-list ol { list-style: none; margin: 0; padding: 0; }
+  .chron-list li { display: flex; flex-wrap: wrap; gap: 20px; padding: 24px 0; border-bottom: 1px solid var(--line); }
+  .chron-list .m { flex: 0 0 84px; font-size: 20px; font-weight: var(--w-thin); color: var(--red); }
+  .chron-list li > div { flex: 1 1 300px; }
+  .chron-list .tag { font-size: 12px; font-weight: var(--w-bold); color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; }
+  .chron-list h3 { margin: 4px 0; font-size: 24px; font-weight: var(--w-black); line-height: 1.35; }
+  .chron-list p { margin: 0; color: #3D3A35; }
+
+  .works { display: flex; flex-wrap: wrap; gap: 48px; border-top: 1px solid var(--ink); }
+  .feature { flex: 999 1 520px; display: flex; flex-direction: column; gap: 14px; text-decoration: none; background: #0B1424; color: #EDE9DF; padding: clamp(28px, 4vw, 48px); min-height: 360px; justify-content: flex-end; }
+  .feature .kicker { color: #F5B841; }
+  .feature-name { font-size: clamp(44px, 7vw, 80px); font-weight: var(--w-black); line-height: 1; letter-spacing: -0.01em; }
+  .feature-body { max-width: 520px; color: #B8C1D1; }
+  .feature-cta { font-weight: var(--w-bold); color: #F5B841; }
+  .feature:hover { color: #EDE9DF; }
+  .lab { flex: 1 1 320px; }
+  .lab-head { margin: 0; padding-bottom: 14px; border-bottom: 1px solid var(--ink); font-size: 13px; font-weight: var(--w-bold); color: var(--muted); }
+  .lab ul { list-style: none; margin: 0; padding: 0; }
+  .lab li { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .lab li > span:first-child { display: flex; flex-direction: column; gap: 2px; }
+  .lab strong { font-size: 16px; }
+  .lab li span span { font-size: 13px; color: var(--muted); }
+  .lab .st { font-size: 12px; color: var(--muted); white-space: nowrap; }
+
+  .room-band { display: block; background: var(--red); color: var(--ivory); text-decoration: none; }
+  .room-band:hover { color: var(--ivory); }
+  .room-inner { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 32px; padding-block: 88px; }
+  .room-inner > span:first-child { display: flex; flex-direction: column; gap: 14px; }
+  .kicker.light { color: #FFD9CF; }
+  .room-title { font-size: clamp(40px, 7vw, 88px); font-weight: var(--w-black); line-height: 1.05; }
+  .room-sub { font-size: 16px; }
+  .room-band .btn { border-width: 2px; }
+</style>
