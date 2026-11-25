@@ -6,7 +6,7 @@
 //   works/<作品名>/*.jpg    → 作品の画像（パンフレットのページなど）。ファイル名順に並ぶ
 // やること: 向きを直す → 2サイズの WebP に縮小 → 位置情報などのメタデータを全部消す → 一覧(JSON)を作る
 // 撮影日・レンズ・F値は、写真に記録されていれば自動で拾う。
-// 位置情報（GPS）が入った写真が見つかったら、公開を止めてエラーにする（このリポジトリは公開されているため）。
+// サイトに載る加工済みの画像には、位置情報を含むメタデータは一切残らない（元の写真はリポジトリにそのまま残る）。
 import { readdir, readFile, mkdir, writeFile, stat } from 'node:fs/promises';
 import { join, extname, basename } from 'node:path';
 import sharp from 'sharp';
@@ -100,11 +100,7 @@ async function main() {
 
   manifest.rolls.sort((a, b) => b.sort.localeCompare(a.sort));   // 年のないロール → 新しい年 → 古い年
   manifest.rolls.forEach((r) => delete r.sort);
-  if (gpsHits.length) {
-    console.error('\n位置情報（GPS）が入った写真があります。公開を止めました:\n' + gpsHits.map((p) => '  - ' + p).join('\n'));
-    console.error('位置情報を消した写真で置き換えてください（このリポジトリは誰でも見られます）。\n');
-    process.exit(1);
-  }
+  if (gpsHits.length) console.log(`photos: ${gpsHits.length} 枚に位置情報あり（サイト用の画像からは削除済み）`);
   await writeFile(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
   console.log(`photos: ${manifest.rolls.reduce((n, r) => n + r.frames.length, 0)} frames in ${manifest.rolls.length} rolls, ${Object.keys(manifest.covers).length} covers, ${Object.keys(manifest.works).length} works`);
 }

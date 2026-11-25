@@ -23,7 +23,7 @@ export function roomPanels(latest?: Ep): Record<string, Panel> {
     links: [L(`${featuredWork.title} に${featuredWork.cta.replace('する', '')}`, featuredWork.url, true), L('Lab room へ', '/#lab')] },
   guitar: { kicker: 'Corner — guitars', title: 'Music', body: 'レスポールタイプのエレキ（青）と、ヤマハのアコギ（茶）。', items: [], links: [] },
   piano: { kicker: 'Left wall — Yamaha upright', title: 'Piano & Records', body: 'コンパクトなヤマハのアップライトピアノ。最近はあまり弾いていなくて、上はレコードと地球儀の置き場になっている。', items: [{ t: 'Harry Styles' }, { t: 'SZA' }], links: [] },
-  map: { kicker: 'Wall — world map', title: 'Journeys', body: '学びに行った場所に、ピンを刺している。', items: [{ t: 'Paris — 2026 Spring', s: 'Sciences Po の Spring school で EU affairs' }, { t: 'Nairobi — 2026 Autumn', s: '現地の経済と電子決済を見に' }, { t: 'Tokyo', s: 'ホーム' }], links: [L('Kenya の旅', '/darkroom/2026_kenya/', true), L('Paris の旅', '/darkroom/2026_paris/'), L('年譜で見る', '/#archive')] },
+  map: { kicker: 'Wall — world map', title: 'Journeys', body: '学びに行った場所に、ピンを刺している。', items: [{ t: 'Paris — 2026 Spring', s: 'Sciences Po の Spring school で EU affairs' }, { t: 'Nairobi — 2026 Autumn', s: '現地の経済と電子決済を見に' }, { t: 'Tokyo', s: 'ホーム' }], links: [L('Kenya の旅', '/darkroom/2026_kenya/', true), L('Paris の旅', '/darkroom/2026_paris/'), L('Map room へ', '/#map')] },
   racket: { kicker: 'Wall — racket', title: 'Tennis', body: 'ピアノの上、地図の横に掛けてある。テニスサークル ALLDC で。', items: [], links: [] },
   globe: { kicker: 'Piano top — globe', title: 'Next', body: '次は、どこへ行こう。', items: [], links: [] },
   clock: { kicker: 'Wall — clock', title: '', body: '壁の時計は、東京の今の時刻を指している。', items: [], links: [] },

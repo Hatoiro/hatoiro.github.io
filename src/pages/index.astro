@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import Darkroom from '../components/Darkroom.astro';
-import { profile, podcast, instagram, issues, currentIssue, featuredWork, works, lab, hub } from '../data/site';
+import { profile, podcast, instagram, issues, currentIssue, featuredWork, works, lab, hub, journeys } from '../data/site';
 import Lightbox from '../components/Lightbox.astro';
 import photos from '../data/photos.json';
 import episodes from '../data/episodes.json';
@@ -16,6 +16,11 @@ const fmt = (d: string) => d ? d.slice(0, 10).replaceAll('-', '.') : '';
 const covers = photos.covers as Record<string, string>;
 const workImages = (photos as { works?: Record<string, { thumb: string; full: string; title: string }[]> }).works ?? {};
 const ytId = (u = '') => (u.match(/(?:v=|youtu\.be\/|\/live\/|\/shorts\/|\/embed\/)([\w-]{11})/) || [])[1];
+type MapRoll = { id: string; label: string; year?: string; period?: string; frames: { thumb: string; full: string }[] };
+const trips = (photos.rolls as MapRoll[]).filter((r) => r.year && r.frames.length).map((r) => {
+  const j = journeys[r.id] ?? {};
+  return { id: r.id, name: j.title ?? r.label, period: j.period ?? r.period ?? r.year, place: j.place ?? '', img: r.frames[0].full, count: r.frames.length, learnings: j.learnings?.length ?? 0 };
+});
 const shownWorks = works.filter((w) => (w.kind === 'Video' ? !!ytId(w.youtube) : true));
 const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d: ((i * 0.07) % 1.3).toFixed(2) }));
 ---
@@ -104,6 +109,31 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
         </div>
       </div>
     </section>
+
+    <!-- ===== Map room (旅) ===== -->
+    {trips.length > 0 && (
+      <section id="map" class="wrap band map">
+        <div class="head">
+          <div>
+            <p class="kicker">{hub.mapKicker}</p>
+            <h2 class="sec-title">Map <span class="thin">room</span></h2>
+          </div>
+          <p class="lede">{hub.mapLede}</p>
+        </div>
+        <ul class="trips">
+          {trips.map((t) => (
+            <li>
+              <a href={`/darkroom/${t.id}/`}>
+                <span class="trip-img"><img src={t.img} alt="" loading="lazy" /></span>
+                <span class="trip-name">{t.name}</span>
+                <span class="trip-meta">{[t.period, t.place].filter(Boolean).join(' · ')}</span>
+                <span class="trip-tags"><span>{t.count} frames</span>{t.learnings > 0 && <span class="learn">学び {t.learnings}</span>}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
 
     <!-- ===== Archive room (年譜) ===== -->
     <section id="archive" class="wrap band">
@@ -287,6 +317,18 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
   .insta-title { margin: 0; flex: 1 1 280px; font: 400 clamp(36px, 5vw, 64px)/1 var(--f-serif); white-space: pre-line; }
   .soon { margin: 0; color: var(--muted-on-dark); }
 
+  .map { border-bottom: 1px solid var(--ink); }
+  .trips { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr)); gap: 36px 24px; }
+  .trips a { display: flex; flex-direction: column; gap: 8px; text-decoration: none; }
+  .trip-img { display: block; aspect-ratio: 4 / 5; overflow: hidden; background: #2E2D2A; }
+  .trip-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+  .trips a:hover .trip-img img { transform: scale(1.04); }
+  .trip-name { margin-top: 6px; font: 400 clamp(36px, 4vw, 52px)/0.95 var(--f-display); text-transform: uppercase; }
+  .trips a:hover .trip-name { color: var(--red); }
+  .trip-meta { font: 400 12px var(--f-mono); color: var(--muted); }
+  .trip-tags { display: flex; gap: 8px; font: 400 11px var(--f-mono); }
+  .trip-tags span { padding: 3px 8px; border: 1px solid var(--line); }
+  .trip-tags .learn { border-color: var(--red); color: var(--red); }
   .archive-title { margin-bottom: 48px; }
   .chron { display: flex; flex-wrap: wrap; gap: 48px; }
   .chron-side { flex: 1 1 300px; }

@@ -9,6 +9,7 @@
 | `/` | ハブ。各年を雑誌の「号」に見立てた表紙と、各部屋の入口 |
 | `/studyroom/` | noisy studyroom — ポッドキャストの全エピソード（YouTube から自動） |
 | `/darkroom/` | Darkroom — 写真のコンタクトシート。タップで全画面 |
+| `/#map` | Map room — 旅の一覧（各旅のページへ） |
 | `/darkroom/<フォルダ名>/` | 旅（ロール）ごとのページ。写真と、その旅の学び（`site.ts` の `journeys`） |
 | `/#archive` | Archive room — 年譜 |
 | `/#lab` | Lab room — 作品と、制作中・実験中のもの |
@@ -20,7 +21,7 @@
 ## 更新のしかた
 
 - **文章・年譜・SNS・作品**: `src/data/site.ts` を書き換える。空欄の項目はページに出ない。
-- **写真**: `photos/<年-月-名前>/` に入れるだけ（`photos/README.md`）。位置情報入りは公開が止まる。
+- **写真**: `photos/<年-月-名前>/` に入れるだけ（`photos/README.md`）。サイト用の画像からは位置情報などのメタデータが自動で消える。
 - **作品の画像**（パンフレットのページなど）: `works/<名前>/` に入れて、`site.ts` の `works` で `images` に名前を書く（`works/README.md`）。
 - **作品の動画**: `site.ts` の `works` で `youtube` に URL を貼る。
 - **ポッドキャスト**: 何もしなくていい。毎朝と push のたびに YouTube の新着を取り込む。

@@ -151,6 +151,8 @@ export const hub = {
   darkroomEmpty: '現像中。写真は、東京・パリ・ナイロビのロールから順にここへ並びます。',
   instaTitle: '毎日のコマは、\nInstagram で。',
   instaSoon: 'アカウントは近日公開。',
+  mapKicker: 'Journeys — 旅',
+  mapLede: '行った場所ごとに、写真と、そこで考えたことを。',
   chronicleKicker: 'Chronicle — 年譜',
   worksKicker: 'Works — つくったもの',
   labHead: 'On the bench — 制作中・実験中のもの',
