@@ -36,7 +36,7 @@ const data = JSON.stringify({ panels, order, names, pos2d }).replace(/</g, '\\u0
 <Base title="晴翔の部屋" description="石黒晴翔の部屋を、3Dで歩き回る。物をタップすると、その物にまつわる話が開く。" bodyClass="room-page">
   <div class="app">
     <header class="bar">
-      <a href="/" class="brand"><span class="t">晴翔の部屋</span><span class="s">Haruto Ishiguro</span></a>
+      <a href="/" class="brand"><span class="t">晴翔の<em>部屋</em></span><span class="s">石黒晴翔</span></a>
       <div class="ctrls">
         <div class="seg" role="group" aria-label="時間帯">
           <button type="button" data-tod="morning" aria-pressed="false">朝</button>
@@ -77,13 +77,13 @@ const data = JSON.stringify({ panels, order, names, pos2d }).replace(/</g, '\\u0
   .room-page .app { display: grid; grid-template-columns: minmax(0, 1fr) 380px; grid-template-rows: auto minmax(0, 1fr); height: 100dvh; }
   .room-page .bar { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 24px; border-bottom: 1px solid var(--rline); }
   .room-page .brand { display: flex; align-items: baseline; gap: 12px; text-decoration: none; }
-  .room-page .brand .t { font-size: 24px; font-weight: 900; letter-spacing: 0.08em; }
-  .room-page .brand .s { font-size: 14px; font-weight: 200; color: var(--rmuted); }
+  .room-page .brand .t { font: 400 32px/1 var(--f-serif); }
+  .room-page .brand .s { font-size: 13px; color: var(--rmuted); }
   .room-page .ctrls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
   .room-page .seg { display: flex; gap: 4px; padding: 4px; border: 1px solid var(--rline); border-radius: 999px; }
   .room-page .seg button { min-height: 38px; min-width: 56px; padding: 0 14px; border: 0; border-radius: 999px; background: transparent; cursor: pointer; font-size: 14px; font-weight: 700; }
   .room-page .seg button[aria-pressed=true] { background: var(--fg); color: var(--bg); }
-  .room-page .rpill { min-height: 44px; padding: 0 18px; display: inline-flex; align-items: center; border: 1px solid currentColor; border-radius: 999px; background: transparent; cursor: pointer; font-size: 14px; text-decoration: none; color: inherit; }
+  .room-page .rpill { min-height: 44px; padding: 0 18px; display: inline-flex; align-items: center; border: 1px solid currentColor; border-radius: 999px; background: transparent; cursor: pointer; font: 400 13px var(--f-mono); text-decoration: none; color: inherit; }
   .room-page .stage { position: relative; overflow: hidden; }
   .room-page #view { position: absolute; inset: 0; }
   .room-page #view canvas.gl { position: absolute; inset: 0; display: block; touch-action: none; cursor: grab; }
@@ -101,12 +101,12 @@ const data = JSON.stringify({ panels, order, names, pos2d }).replace(/</g, '\\u0
   .room-page .spots2d .spot { pointer-events: auto; }
   .room-page .tools { position: absolute; left: 16px; bottom: 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; pointer-events: none; }
   .room-page .tools .rpill { pointer-events: auto; background: var(--bg); }
-  .room-page #hint { font-size: 13px; color: var(--rmuted); }
-  .room-page .loading { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 200; color: var(--rmuted); background: var(--bg); }
+  .room-page #hint { font: 400 12px var(--f-mono); color: var(--rmuted); }
+  .room-page .loading { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font: 400 28px var(--f-serif); color: var(--rmuted); background: var(--bg); }
   .room-page .panel { background: #111010; color: #EDE9DF; padding: 28px; display: flex; flex-direction: column; gap: 20px; overflow: auto; }
   :root[data-tod=night] .room-page .panel { background: #0B0B0E; }
-  .room-page .pkicker { margin: 0; font-size: 13px; font-weight: 700; color: #FF6A4D; }
-  .room-page .ptitle { margin: 0; font-size: 40px; font-weight: 200; line-height: 1.2; letter-spacing: -0.01em; text-wrap: balance; white-space: pre-line; }
+  .room-page .pkicker { margin: 0; font: 400 12px var(--f-mono); letter-spacing: 0.08em; color: #FF6A4D; }
+  .room-page .ptitle { margin: 0; font: 400 48px/1.05 var(--f-serif); text-wrap: balance; white-space: pre-line; }
   .room-page .pbody { margin: 0; font-size: 15px; line-height: 1.9; color: #CFCAC0; }
   .room-page .items { list-style: none; margin: 0; padding: 0; border-top: 1px solid #3A3833; }
   .room-page .items li { display: flex; flex-direction: column; gap: 2px; padding: 12px 0; border-bottom: 1px solid #3A3833; }
@@ -122,10 +122,10 @@ const data = JSON.stringify({ panels, order, names, pos2d }).replace(/</g, '\\u0
   .room-page #sheet-close { display: none; }
   @media (max-width: 900px) {
     .room-page .app { grid-template-columns: minmax(0, 1fr); }
-    .room-page .brand .t { font-size: 20px; }
+    .room-page .brand .t { font-size: 26px; }
     .room-page .panel { position: fixed; left: 0; right: 0; bottom: 0; max-height: 24dvh; padding: 18px 20px; border-radius: 18px 18px 0 0; transition: max-height 0.35s; z-index: 5; }
     .room-page.sheet-open .panel { max-height: 62dvh; }
-    .room-page .ptitle { font-size: 30px; }
+    .room-page .ptitle { font-size: 36px; }
     .room-page #sheet-close { display: inline-flex; align-self: flex-start; }
     .room-page .tools { bottom: calc(24dvh + 12px); }
   }

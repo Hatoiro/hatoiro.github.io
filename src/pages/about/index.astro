@@ -38,14 +38,14 @@ const linkedin = socials.find((s) => s.name === 'LinkedIn');
 <style>
   .page { padding-block: clamp(64px, 9vw, 112px); max-width: 960px; }
   .name { margin: 12px 0 0; font-size: clamp(52px, 9vw, 96px); font-weight: var(--w-black); line-height: 1; letter-spacing: 0.06em; display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 20px; }
-  .name span { font-size: clamp(24px, 4vw, 36px); font-weight: var(--w-thin); letter-spacing: 0.02em; }
+  .name span { font: italic 400 clamp(28px, 4.5vw, 44px) var(--f-serif); letter-spacing: 0; }
   .headline { margin: 18px 0 0; font-weight: var(--w-bold); }
   .intro { max-width: 620px; margin: 24px 0 64px; }
   section { margin-bottom: 56px; }
-  h2 { margin: 0 0 8px; font-size: 13px; font-weight: var(--w-bold); color: var(--red); letter-spacing: 0.06em; text-transform: uppercase; }
+  h2 { margin: 0 0 8px; font: 400 12px var(--f-mono); color: var(--red); letter-spacing: 0.14em; text-transform: uppercase; }
   .cv { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink); }
   .cv li { display: flex; flex-wrap: wrap; gap: 4px 24px; padding: 18px 0; border-bottom: 1px solid var(--line); }
-  .cv .p { flex: 0 0 220px; font-size: 14px; color: var(--muted); }
+  .cv .p { flex: 0 0 220px; font: 400 13px var(--f-mono); color: var(--muted); }
   .cv li > div { flex: 1 1 320px; display: flex; flex-direction: column; gap: 2px; }
   .cv strong { font-size: 18px; }
   .cv .sub { font-size: 13px; color: var(--muted); }
