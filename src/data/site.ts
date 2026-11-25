@@ -19,6 +19,7 @@ export const profile = {
 export const socials = [
   { name: 'YouTube', handle: '@noisystudyroom', url: 'https://www.youtube.com/@noisystudyroom' },
   { name: 'Spotify', handle: 'noisystudyroom', url: 'https://open.spotify.com/show/033XrQOUG2qLNHDLtBC7ce' },
+  { name: 'Apple Podcast', handle: 'noisystudyroom', url: 'https://podcasts.apple.com/jp/podcast/%E9%A8%92%E3%81%8C%E3%81%97%E3%81%84%E8%87%AA%E7%BF%92%E5%AE%A4/id6795637556' },
   { name: 'Instagram', handle: 'hato_iro', url: 'https://www.instagram.com/hato_iro/' },
   { name: 'Facebook', handle: '石黒晴翔', url: 'https://www.facebook.com/profile.php?id=100076340807338&locale=ja_JP' },
   { name: 'LinkedIn', handle: 'Haruto Ishiguro', url: 'https://www.linkedin.com/in/haruto-ishiguro-96268a271/' },
