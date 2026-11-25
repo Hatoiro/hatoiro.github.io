@@ -17,6 +17,7 @@ const fmt = (d: string) => d.slice(0, 10).replaceAll('-', '.');
     <p class="btns">
       <a class="btn solid" href={podcast.youtube}>YouTube チャンネル</a>
       {podcast.spotify && <a class="btn" href={podcast.spotify}>Spotify</a>}
+      {podcast.apple && <a class="btn" href={podcast.apple}>Apple Podcasts</a>}
     </p>
     {eps.length === 0 ? (
       <p class="empty">エピソードは YouTube から毎日自動で取り込まれます。</p>

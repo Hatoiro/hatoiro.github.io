@@ -24,9 +24,7 @@ const trips = [...mapRolls.filter((r) => r.year), ...mapRolls.filter((r) => !r.y
   return { id: r.id, name: j.title ?? r.label, period: j.period ?? (r.period || r.note || ''), place: j.place ?? '', img: r.frames[0].full, count: r.frames.length, learnings: j.learnings?.length ?? 0 };
 });
 const MAP_FIRST = 4; // トップで最初に見せる数。残りは「もっと見る」で開く
-const featShotKey = (featuredWork as { images?: string }).images;
-const featShot = featShotKey ? workImages[featShotKey]?.[0] : undefined;
-const shownWorks = works.filter((w) => (w.kind === 'Video' ? !!ytId(w.youtube) : true));
+const shownWorks = [featuredWork, ...works].filter((w) => (w.kind === 'Video' ? !!ytId(w.youtube) : true));
 const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d: ((i * 0.07) % 1.3).toFixed(2) }));
 ---
 <Base>
@@ -79,7 +77,8 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
           <div class="eq" aria-hidden="true">{bars.map((b) => <span style={`height:${b.h}%;animation-delay:${b.d}s`}></span>)}</div>
           <div class="btns">
             <a class="btn solid" href={latest?.url ?? podcast.youtube}>YouTube で見る</a>
-            {podcast.spotify && <a class="btn" href={podcast.spotify}>Spotify で聴く</a>}
+            {podcast.spotify && <a class="btn" href={podcast.spotify}>Spotify</a>}
+            {podcast.apple && <a class="btn" href={podcast.apple}>Apple Podcasts</a>}
             <a class="btn" href="/studyroom/">全エピソード</a>
           </div>
         </div>
@@ -183,15 +182,6 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
       <p class="kicker">{hub.worksKicker}</p>
       <h2 class="sec-title">Lab <span class="thin">room</span></h2>
       <div class="works-grid">
-        <a class={featShot ? 'feature has-shot' : 'feature'} href={featuredWork.url}>
-          <span class="feature-text">
-            <span class="meta light">{featuredWork.kind} · {featuredWork.year} · Live</span>
-            <span class="feature-name">{featuredWork.title}</span>
-            <span class="feature-body">{featuredWork.body}</span>
-            <span class="feature-cta">{featuredWork.cta} →</span>
-          </span>
-          {featShot && <span class="feature-shot"><img src={featShot.full} alt={`${featuredWork.title} の画面`} loading="lazy" /></span>}
-        </a>
         {shownWorks.map((w) => {
           const id = ytId(w.youtube);
           const pages = w.images ? workImages[w.images] ?? [] : [];
@@ -203,6 +193,14 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
                   <img src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`} alt="" loading="lazy" />
                   <span class="play" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="#F3EFE6"></path></svg></span>
                 </a>
+              ) : pages.length && w.url ? (
+                <a class="media shot" href={w.url}>
+                  <img src={pages[0].thumb} alt={`${w.title} の画面`} loading="lazy" />
+                </a>
+              ) : pages.length && w.kind !== 'Print' ? (
+                <button type="button" class="media shot" data-lb-src={pages[0].full} data-lb-cap={w.title} aria-label={`${w.title} を大きく見る`}>
+                  <img src={pages[0].thumb} alt="" loading="lazy" />
+                </button>
               ) : pages.length ? (
                 <button type="button" class="media print" style={`background:${w.color ?? '#1C1A18'}`} data-lb-src={pages[0].full} data-lb-group={`work-${w.images}`} data-lb-cap={`${w.title} · 1`} aria-label={`${w.title} をひらく`}>
                   <img src={pages[0].thumb} alt="" loading="lazy" />
@@ -215,6 +213,7 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
               <p class="meta">{meta}</p>
               <h3>{w.title}</h3>
               <p class="wbody">{w.body}</p>
+              {w.url && <a class="wlink" href={w.url}>{w.cta ?? 'ひらく'} →</a>}
             </article>
           );
         })}
@@ -391,19 +390,8 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
   .works { border-top: 1px solid var(--ink); }
   .works .sec-title { margin-bottom: 40px; }
   .works-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 40px 28px; }
-  .feature { grid-column: 1 / -1; display: flex; flex-direction: column; gap: 14px; text-decoration: none; background: #0B1424; color: #EDE9DF; padding: clamp(28px, 4vw, 48px); min-height: 340px; justify-content: flex-end; }
   .meta { margin: 0; font: 400 11px var(--f-mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
   .meta.light { color: #F5B841; }
-  .feature.has-shot { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: end; gap: clamp(24px, 4vw, 56px); }
-  .feature-text { display: flex; flex-direction: column; gap: 14px; }
-  .feature-shot { display: block; border-radius: 6px; overflow: hidden; box-shadow: 0 24px 60px rgba(0,0,0,0.45), 0 0 0 1px rgba(237,233,223,0.12); transition: transform 0.4s ease; }
-  .feature-shot img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top center; }
-  .feature:hover .feature-shot { transform: translateY(-4px); }
-  @media (max-width: 760px) { .feature.has-shot { grid-template-columns: 1fr; } .feature-shot { order: -1; } }
-  .feature-name { font: 400 clamp(48px, 7vw, 80px)/1 var(--f-display); }
-  .feature-body { max-width: 560px; color: #B8C1D1; }
-  .feature-cta { font-weight: var(--w-bold); color: #F5B841; }
-  .feature:hover { color: #EDE9DF; }
   .work { display: flex; flex-direction: column; gap: 10px; }
   .media { position: relative; display: flex; align-items: center; justify-content: center; aspect-ratio: 3 / 2; overflow: hidden; border: 0; padding: 0; width: 100%; }
   .media.video img { width: 100%; height: 100%; object-fit: cover; }
@@ -413,6 +401,12 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
   .media .play { position: absolute; left: 16px; bottom: 16px; width: 56px; height: 56px; border-radius: 50%; background: var(--red); display: flex; align-items: center; justify-content: center; }
   .media .pages { position: absolute; right: 12px; bottom: 10px; font: 400 11px var(--f-mono); color: #F3EFE6; }
   .media.type span { font: 400 clamp(28px, 4vw, 40px)/1.1 var(--f-display); color: #F3EFE6; padding: 24px; text-align: center; }
+  .media.shot { background: #1C1A18; cursor: pointer; }
+  button.media.shot { cursor: zoom-in; }
+  .media.shot img { width: 100%; height: 100%; object-fit: cover; object-position: top center; transition: transform 0.4s ease; }
+  .media.shot:hover img { transform: scale(1.03); }
+  .wlink { align-self: flex-start; font-weight: var(--w-bold); color: var(--red); text-decoration: none; }
+  .wlink:hover { text-decoration: underline; }
   .work h3 { margin: 0; font-size: 22px; font-weight: var(--w-black); line-height: 1.35; }
   .wbody { margin: 0; color: #3D3A35; }
   .lab { margin-top: 64px; max-width: 760px; }

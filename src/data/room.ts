@@ -15,7 +15,7 @@ export function roomPanels(latest?: Ep): Record<string, Panel> {
 
   welcome: { kicker: 'Welcome', title: 'ようこそ、\n晴翔の部屋へ。', body: '光っている物をタップすると、その物にまつわる話が開きます。ドラッグで部屋を回して、ホイールかピンチで寄れます。', items: [], links: [L('ハブで一覧を見る', '/')] },
   mic: { kicker: 'Desk — microphone', title: podcast.name, body: podcast.about, items: latestItem,
-    links: [L('YouTube で見る', latest?.url ?? podcast.youtube, true), ...(podcast.spotify ? [L('Spotify で聴く', podcast.spotify)] : []), L('全エピソード', '/studyroom/')] },
+    links: [L('YouTube で見る', latest?.url ?? podcast.youtube, true), ...(podcast.apple ? [L('Apple Podcasts で聴く', podcast.apple)] : []), ...(podcast.spotify ? [L('Spotify で聴く', podcast.spotify)] : []), L('全エピソード', '/studyroom/')] },
   camera: { kicker: 'Cabinet — Nikon F3 / Canon EOS R', title: 'Darkroom', body: 'フィルムの Nikon F3 と、デジタルの Canon EOS R。オールドレンズをつけて、東京・パリ・ナイロビを撮る。', items: [{ t: 'Nikon F3', s: 'フィルム' }, { t: 'Canon EOS R', s: 'デジタル · オールドレンズで' }],
     links: [L('Darkroom で写真を見る', '/darkroom/', true), ...(instagram.url ? [L(`Instagram @${instagram.handle}`, instagram.url)] : [])] },
   turntable: { kicker: 'Cabinet — turntable', title: 'Now spinning', body: 'キャビネットの上のターンテーブル。いま回っているのは――', items: [{ t: 'Kiss All the Time, Disco Occasionally', s: 'Harry Styles' }], links: [] },

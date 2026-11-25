@@ -651,6 +651,18 @@
     "2026": "/photos-built/covers/2026-2400.webp"
   },
   "works": {
+    "aogumi-pamphlet": [
+      {
+        "title": "cover",
+        "thumb": "/photos-built/works/aogumi-pamphlet/01-cover-800.webp",
+        "full": "/photos-built/works/aogumi-pamphlet/01-cover-2400.webp"
+      },
+      {
+        "title": "contents",
+        "thumb": "/photos-built/works/aogumi-pamphlet/02-contents-800.webp",
+        "full": "/photos-built/works/aogumi-pamphlet/02-contents-2400.webp"
+      }
+    ],
     "kasuga-3d": [
       {
         "title": "",

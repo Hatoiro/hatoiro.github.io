@@ -21,9 +21,10 @@ const year = new Date().getFullYear();
 <style>
   .site-footer { padding-block: 88px 48px; }
   .links { list-style: none; margin: 20px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); border-top: 1px solid var(--line-on-dark); }
-  .links a { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; min-height: 72px; padding: 20px 16px 20px 0; border-bottom: 1px solid var(--line-on-dark); text-decoration: none; }
-  .n { font: 400 32px var(--f-serif); }
-  .h { font: 400 12px var(--f-mono); color: var(--muted-on-dark); }
+  .links a { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 2px 12px; min-height: 72px; height: 100%; box-sizing: border-box; padding: 20px 16px 20px 0; text-decoration: none; }
+  .links li { border-bottom: 1px solid var(--line-on-dark); }
+  .n { font: 400 30px var(--f-serif); white-space: nowrap; }
+  .h { margin-left: auto; white-space: nowrap; font: 400 12px var(--f-mono); color: var(--muted-on-dark); }
   .end { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px; margin-top: 96px; }
   .big { margin: 0; font-size: clamp(56px, 10vw, 104px); font-weight: var(--w-black); letter-spacing: 0.12em; line-height: 1; }
   .small { margin: 0; font: 400 12px var(--f-mono); color: var(--muted-on-dark); }

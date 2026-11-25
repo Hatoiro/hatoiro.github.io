@@ -33,9 +33,10 @@ export const socials = [
 export const podcast = {
   name: 'noisystudyroom',
   tagline: '',
-  about: '身の回りの面白い友人を連れてきてインタビューする、30分ほどの質素なpodcast。YouTube と Spotify で配信している。',
+  about: '身の回りの面白い友人を連れてきてインタビューする、30分ほどの質素なpodcast。YouTube・Spotify・Apple Podcasts で配信している。',
   youtube: 'https://www.youtube.com/@noisystudyroom',
   spotify: 'https://open.spotify.com/show/033XrQOUG2qLNHDLtBC7ce',
+  apple: 'https://podcasts.apple.com/jp/podcast/%E9%A8%92%E3%81%8C%E3%81%97%E3%81%84%E8%87%AA%E7%BF%92%E5%AE%A4/id6795637556',
 };
 
 export const instagram = { handle: 'hato_iro', url: 'https://www.instagram.com/hato_iro/' };
@@ -92,6 +93,7 @@ export const currentIssue = '2026';
 // kind = 種類（Web app / Video / Print など）、year = 制作年
 // youtube = YouTube の動画URL（入れるとサムネイル付きで表示。空なら非表示）
 // images = works/ の中のフォルダ名（パンフレットのページなど。タップで全画面）
+// url = 作品のサイト（画像をタップするとそこへ飛ぶ）。url がなく images があれば、タップで全画面
 export type Work = { title: string; kind: string; year: string; body: string; url?: string; cta?: string; youtube?: string; images?: string; color?: string };
 export const featuredWork: Work = {
   title: 'QUIET FLIGHT', kind: 'Web app', year: '2026',
@@ -102,6 +104,8 @@ export const featuredWork: Work = {
 };
 export const works: Work[] = [
   { title: '三田春日神社 例大祭2026', kind: 'Video', year: '2026', body: '3年に1度の、三田春日神社の例大祭の映像。大雨の中、記録と映像美の追求を試みた。', youtube: 'https://youtu.be/F0lGEvlRDMo' },
+  { title: 'HIRAC FUND ウェブサイト', kind: 'Website', year: '', body: 'HIRAC FUND のコーポレートサイトのリニューアル。', url: 'https://www.hirac.co.jp/', cta: 'サイトを見る', images: 'hirac-hp', color: '#14213D' },
+  { title: 'HIRAC FUND メンバー紹介ブログ', kind: 'Writing', year: '', body: 'HIRAC FUND のメンバーを紹介するブログを執筆。', images: 'hirac-blog', color: '#2B2B29' },
   { title: '三田春日神社 例大祭2023', kind: 'Video', year: '2023', body: '3年に1度の、三田春日神社の例大祭の映像。灼熱の中初めて長時間動画を撮り編集する経験。', youtube: 'https://www.youtube.com/watch?v=mlkUUPkw58c' },
   { title: '運動会 青組パンフレット', kind: 'Print', year: '2024', body: '開成の運動会で、自分の組・青組のパンフレットをつくった。', images: 'aogumi-pamphlet', color: '#1F3E8C' },
 ];
