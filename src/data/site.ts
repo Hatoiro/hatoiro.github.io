@@ -37,7 +37,7 @@ export const podcast = {
 export const instagram = { handle: 'hato_iro', url: 'https://www.instagram.com/hato_iro/' };
 
 // ---------- 年譜：各年は雑誌の「号」 ----------
-export type Entry = { m: string; tag: 'Education' | 'Work' | 'Journey' | 'Podcast' | 'Photo' | 'Lab'; title: string; body?: string };
+export type Entry = { m: string; tag: 'Education' | 'Work' | 'Journey' | 'Podcast' | 'Photo' | 'Lab'; title: string; body?: string; roll?: string };   // roll = 旅のページ（photos/ のフォルダ名）へリンク
 export type Issue = { id: string; tab: string; big: string; kicker: string; theme: string; tone: string; lines: { k: string; v: string }[]; entries: Entry[] };
 
 export const issues: Issue[] = [
@@ -68,15 +68,15 @@ export const issues: Issue[] = [
   {
     id: '2026', tab: '2026 NOW', big: '2026', kicker: 'Issue 2026 · Now', theme: '外に出て、つくりはじめた年。', tone: '#26221E',
     lines: [
-      { k: 'Podcast', v: 'noisystudyroom — 友人と、人生をふかぼる' },
-      { k: 'Photographs', v: '東京・パリ・ケニアを、オールドレンズで' },
-      { k: 'Journeys', v: 'Sciences Po での学びと、ケニアのスタディツアー' },
-      { k: 'Works', v: 'QUIET FLIGHT・Lecture Tracker' },
+      { k: 'Podcast', v: 'noisystudyroom — unhurried talks with friends on work, life, and the space between' },
+      { k: 'Photographs', v: 'Tokyo, Paris, Kenya — seen through old glass' },
+      { k: 'Journeys', v: 'From EU policy at Sciences Po to mobile money in Kenya' },
+      { k: 'Works', v: 'QUIET FLIGHT & Lecture Tracker — tools I wished existed, so I built them' },
     ],
     entries: [
-      { m: '02–03', tag: 'Journey', title: 'Sciences Po, Paris', body: 'Spring school で EU affairs を。EU経済と物流を学ぶ。' },
+      { m: '02–03', tag: 'Journey', title: 'Sciences Po, Paris', roll: '2026_paris', body: 'Spring school で EU affairs を。EU経済と物流を学ぶ。' },
       { m: '04', tag: 'Education', title: '東京大学 2年に' },
-      { m: '09', tag: 'Journey', title: 'Kenya Study Tour', body: '現地の経済と、電子決済を見に行く。' },
+      { m: '09', tag: 'Journey', title: 'Kenya Study Tour', roll: '2026_kenya', body: '現地の経済と、電子決済を見に行く。' },
       { m: '11', tag: 'Work', title: 'QUIET FLIGHT 公開', body: '世界の空港を巡る、集中のためのフライトアプリ。' },
       { m: '11', tag: 'Lab', title: '三田春日神社 3D', body: '境内を歩いて参拝できるサイト。制作中。' },
     ],
@@ -109,6 +109,39 @@ export const lab = [
 
 // ---------- 写真（暗室） ----------
 // 写真は photos/ フォルダに入れるだけ（photos/README.md 参照）。ここに書く必要はない。
+
+// ---------- 旅のページ（/darkroom/<フォルダ名>/） ----------
+// photos/ のフォルダごとに自動でページができる。ここに書いた旅には、説明と「学び」が付く。
+// 学びは Notion の「キャリアの材料庫」（経験データベース）から抜き出したもの。
+export type Journey = { title?: string; place?: string; period?: string; context?: string; learnings?: string[] };
+export const journeys: Record<string, Journey> = {
+  '2026_kenya': {
+    title: 'Kenya',
+    place: 'Nairobi · Kisumu · Nandi · Amboseli · Mombasa',
+    period: '2026.09.11 — 09.19',
+    context: '経済と電子決済をテーマにしたスタディツアー。都市と地方、いくつもの地域をまわった。',
+    learnings: [
+      '日本で当たり前の経済・金融インフラは、ほかの国では当たり前ではない。',
+      '電子決済の広がりは、技術だけでなく、暮らし・金融へのアクセス・商習慣・経済の仕組みと一緒に見ないと分からない。',
+      '経済を知るには、統計や文献だけでなく、現地の人の行動や制度、暮らしを自分の目で見ることが大事。',
+      '教育や文化の根っこからの違いに触れて、異なる文化を外から簡単に評価することはできないと実感した。',
+      'ケニアで受けた衝撃は、きっと外から見た日本にもある——そう相対化できるようになった。',
+      'そして何より、人々の歓迎の温かさに心を動かされた。',
+    ],
+  },
+  '2026_paris': {
+    title: 'Paris',
+    place: 'Sciences Po, Paris',
+    period: '2026.02 — 03',
+    context: 'Sciences Po の Spring school で、EU経済と物流を中心に学んだ。',
+    learnings: [
+      '国ごとではなく、複数の国が制度や市場を共有する「経済圏」として経済を見る視点を得た。',
+      '経済活動は、各国の制度・地理・物流インフラ・政策に大きく左右される。',
+      '日本の経済や産業を考えるときも、国内で完結させず、欧州など他の地域と比べて捉えることが大事。',
+      '国際的な学びの場に身を置いて、自分の知識や考え方を相対化できた。',
+    ],
+  },
+};
 
 // ---------- ハブの文言 ----------
 export const hub = {

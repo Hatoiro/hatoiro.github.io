@@ -23,13 +23,13 @@ export function roomPanels(latest?: Ep): Record<string, Panel> {
     links: [L(`${featuredWork.title} に${featuredWork.cta.replace('する', '')}`, featuredWork.url, true), L('Lab room へ', '/#lab')] },
   guitar: { kicker: 'Corner — guitars', title: 'Music', body: 'レスポールタイプのエレキ（青）と、ヤマハのアコギ（茶）。', items: [], links: [] },
   piano: { kicker: 'Left wall — Yamaha upright', title: 'Piano & Records', body: 'コンパクトなヤマハのアップライトピアノ。最近はあまり弾いていなくて、上はレコードと地球儀の置き場になっている。', items: [{ t: 'Harry Styles' }, { t: 'SZA' }], links: [] },
-  map: { kicker: 'Wall — world map', title: 'Journeys', body: '学びに行った場所に、ピンを刺している。', items: [{ t: 'Paris — 2026 Spring', s: 'Sciences Po の Spring school で EU affairs' }, { t: 'Nairobi — 2026 Autumn', s: '現地の経済と電子決済を見に' }, { t: 'Tokyo', s: 'ホーム' }], links: [L('年譜で見る', '/#archive')] },
+  map: { kicker: 'Wall — world map', title: 'Journeys', body: '学びに行った場所に、ピンを刺している。', items: [{ t: 'Paris — 2026 Spring', s: 'Sciences Po の Spring school で EU affairs' }, { t: 'Nairobi — 2026 Autumn', s: '現地の経済と電子決済を見に' }, { t: 'Tokyo', s: 'ホーム' }], links: [L('Kenya の旅', '/darkroom/2026_kenya/', true), L('Paris の旅', '/darkroom/2026_paris/'), L('年譜で見る', '/#archive')] },
   racket: { kicker: 'Wall — racket', title: 'Tennis', body: 'ピアノの上、地図の横に掛けてある。テニスサークル ALLDC で。', items: [], links: [] },
   globe: { kicker: 'Piano top — globe', title: 'Next', body: '次は、どこへ行こう。', items: [], links: [] },
   clock: { kicker: 'Wall — clock', title: '', body: '壁の時計は、東京の今の時刻を指している。', items: [], links: [] },
-  books: { kicker: 'Shelf — books', title: 'Archive room', body: '本棚は年譜。本当は天井まである本棚を、部屋が見えるように低く切っている。', items: [{ t: '2022', s: '開成高校 入学 · Choate Rosemary Hall のサマースクール' }, { t: '2025', s: '東京大学 入学 · HIRAC FUND でインターン開始' }, { t: '2026', s: 'パリ、ナイロビ、QUIET FLIGHT' }], links: [L('年譜をひらく', '/#archive', true), L('プロフィール', '/about/')] },
+  books: { kicker: 'Shelf — books', title: 'Archive room', body: '本棚は年譜。本当は天井まである本棚を、部屋が見えるように低く切っている。', items: [{ t: '2022', s: '開成高校 入学 · Choate Rosemary Hall のサマースクール' }, { t: '2025', s: '東京大学 入学 · HIRAC FUND でインターン開始' }, { t: '2026', s: 'パリ、ナイロビ、QUIET FLIGHT' }], links: [L('年譜をひらく', '/#archive', true), L('Front room', '/front-room/')] },
   window: { kicker: 'Window — Tokyo', title: 'Now', body: '窓の外は、東京の今の時間。いま取り組んでいること。', items: [{ t: '学んでいること', s: '東京大学 · 経済（2年）' }, { t: 'つくっているもの', s: '三田春日神社 3D' }, ...(latest ? [{ t: '最新回', s: latest.title }] : [])], links: [] },
-  door: { kicker: 'Door', title: '部屋を出る', body: 'ハブに戻って、ぜんぶを一覧で見る。', items: [], links: [L('ハブへ戻る', '/', true), L('プロフィール', '/about/')] },
+  door: { kicker: 'Door', title: '部屋を出る', body: 'ハブに戻って、ぜんぶを一覧で見る。', items: [], links: [L('ハブへ戻る', '/', true), L('Front room', '/front-room/')] },
   };
 }
 

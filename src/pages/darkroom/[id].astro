@@ -1,0 +1,87 @@
+---
+// 旅（ロール）ごとのページ：写真と、その旅の学びを一緒に。
+// photos/ のフォルダごとに自動で作られる。説明と学びは src/data/site.ts の journeys。
+import Base from '../../layouts/Base.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import Darkroom from '../../components/Darkroom.astro';
+import Lightbox from '../../components/Lightbox.astro';
+import photos from '../../data/photos.json';
+import { journeys } from '../../data/site';
+
+type Frame = { thumb: string; full: string; title: string };
+type Roll = { id: string; label: string; note?: string; year?: string; period?: string; camera: string; frames: Frame[] };
+
+export function getStaticPaths() {
+  const rolls = (photos.rolls as Roll[]).filter((r) => r.frames.length);
+  return rolls.map((roll, i) => ({ params: { id: roll.id }, props: { roll, prev: rolls[i - 1] ?? null, next: rolls[i + 1] ?? null } }));
+}
+const { roll, prev, next } = Astro.props as { roll: Roll; prev: Roll | null; next: Roll | null };
+const j = journeys[roll.id] ?? {};
+const title = j.title ?? roll.label;
+const meta = [j.place, j.period ?? roll.period, roll.camera].filter(Boolean);
+const hero = roll.frames[0];
+const learnings = j.learnings ?? [];
+---
+<Base title={`${title} — Darkroom`} description={j.context ?? `${title} の写真。`}>
+  <SiteHeader />
+  <main class="dark page">
+    <div class="wrap">
+      <p class="kicker"><a href="/darkroom/">Darkroom</a> · {roll.year || 'Everyday'}</p>
+      <h1 class="title">{title}</h1>
+      {meta.length > 0 && <p class="meta">{meta.join(' · ')}</p>}
+    </div>
+
+    <button type="button" class="hero" data-lb-src={hero.full} data-lb-cap={`${title} · #1`} aria-label={`${title} の1枚目を拡大`}>
+      <img src={hero.full} alt={hero.title || title} />
+    </button>
+
+    {(j.context || learnings.length > 0) && (
+      <section class="wrap story">
+        {j.context && <p class="context">{j.context}</p>}
+        {learnings.length > 0 && (
+          <div class="learn">
+            <h2>What I took away <span>— 学び</span></h2>
+            <ol>{learnings.map((l, i) => <li><span class="n">{String(i + 1).padStart(2, '0')}</span><span>{l}</span></li>)}</ol>
+          </div>
+        )}
+      </section>
+    )}
+
+    <section class="wrap sheet">
+      <p class="kicker">Contact sheet — {roll.frames.length} frames</p>
+      <Darkroom only={roll.id} />
+    </section>
+
+    <nav class="wrap pager" aria-label="ほかの旅">
+      {prev ? <a href={`/darkroom/${prev.id}/`}><span>← 前のロール</span><strong>{journeys[prev.id]?.title ?? prev.label}</strong></a> : <span></span>}
+      {next ? <a class="r" href={`/darkroom/${next.id}/`}><span>次のロール →</span><strong>{journeys[next.id]?.title ?? next.label}</strong></a> : <span></span>}
+    </nav>
+  </main>
+  <SiteFooter />
+  <Lightbox />
+</Base>
+
+<style>
+  .page { padding-block: clamp(56px, 8vw, 96px) 64px; }
+  .kicker a { color: inherit; text-decoration: none; }
+  .title { margin: 14px 0 0; font: 400 clamp(72px, 14vw, 200px)/0.86 var(--f-display); text-transform: uppercase; }
+  .meta { margin: 18px 0 0; font: 400 13px var(--f-mono); color: var(--muted-on-dark); letter-spacing: 0.04em; }
+  .hero { display: block; width: 100%; margin: 48px 0 0; padding: 0; border: 0; background: #000; cursor: zoom-in; }
+  .hero img { width: 100%; max-height: 82vh; object-fit: cover; }
+  .story { display: flex; flex-wrap: wrap; gap: 40px 64px; padding-block: 72px 24px; }
+  .context { flex: 1 1 300px; margin: 0; font: 400 clamp(24px, 3vw, 34px)/1.4 var(--f-serif); color: #EDE9DF; }
+  .learn { flex: 999 1 520px; }
+  .learn h2 { margin: 0 0 16px; font: 400 12px var(--f-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--red-on-dark); }
+  .learn h2 span { color: var(--muted-on-dark); }
+  .learn ol { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line-on-dark); }
+  .learn li { display: flex; gap: 20px; padding: 18px 0; border-bottom: 1px solid var(--line-on-dark); font-size: 17px; line-height: 1.8; }
+  .learn .n { flex: 0 0 36px; font: 400 22px var(--f-display); color: var(--red-on-dark); line-height: 1.4; }
+  .sheet { padding-block: 64px 24px; }
+  .sheet .kicker { margin-bottom: 20px; }
+  .pager { display: flex; justify-content: space-between; gap: 16px; padding-block: 48px 24px; border-top: 1px solid var(--line-on-dark); margin-top: 48px; }
+  .pager a { display: flex; flex-direction: column; gap: 4px; text-decoration: none; }
+  .pager a.r { text-align: right; }
+  .pager span { font: 400 12px var(--f-mono); color: var(--muted-on-dark); }
+  .pager strong { font: 400 32px var(--f-serif); }
+</style>

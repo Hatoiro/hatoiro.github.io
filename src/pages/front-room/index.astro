@@ -5,10 +5,10 @@ import SiteFooter from '../../components/SiteFooter.astro';
 import { profile, experience, education, interests, socials } from '../../data/site';
 const linkedin = socials.find((s) => s.name === 'LinkedIn');
 ---
-<Base title="About" description={`${profile.nameEn} — ${profile.headline}`}>
+<Base title="Front room" description={`${profile.nameEn} — ${profile.headline}`}>
   <SiteHeader />
   <main class="wrap page">
-    <p class="kicker">About</p>
+    <p class="kicker">Front room — About</p>
     <h1 class="name">{profile.nameJa}<span>{profile.nameEn}</span></h1>
     <p class="headline">{profile.headline} · {profile.location}</p>
     <p class="intro">{profile.intro}</p>

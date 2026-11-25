@@ -5,11 +5,11 @@ import photos from '../data/photos.json';
 import { hub } from '../data/site';
 type Frame = { thumb: string; full: string; title: string; date?: string; lens?: string; aperture?: string };
 type Roll = { id: string; label: string; note?: string; year?: string; period?: string; camera: string; frames: Frame[] };
-interface Props { full?: boolean }
-const { full = false } = Astro.props;
+interface Props { full?: boolean; only?: string }   // only = そのロールだけ（旅のページ用）
+const { full = false, only } = Astro.props;
 const rolls = (photos.rolls as Roll[]).filter((r) => r.frames.length);
 // ハブでは新しいロール4本まで、各12コマまで。/darkroom/ では全部
-const shown = full ? rolls : rolls.slice(0, 4).map((r) => ({ ...r, frames: r.frames.slice(0, 12) }));
+const shown = only ? rolls.filter((r) => r.id === only) : full ? rolls : rolls.slice(0, 4).map((r) => ({ ...r, frames: r.frames.slice(0, 12) }));
 const groups: { title: string; rolls: { r: Roll; i: number }[] }[] = [];
 shown.forEach((r, i) => { const t = r.year || 'Everyday'; const g = groups.find((x) => x.title === t); g ? g.rolls.push({ r, i }) : groups.push({ title: t, rolls: [{ r, i }] }); });
 const caption = (r: Roll, f: Frame, n: number) => [r.label + (r.period ? ` ${r.period}` : ''), `#${n}`, f.title, f.date, r.camera, f.lens, f.aperture].filter(Boolean).join(' · ');
@@ -27,7 +27,7 @@ const tones = ['#5B574F', '#2E2D2A', '#8E887C', '#3F3D38', '#B4AE9F', '#4A4741']
     </div>
   ) : (
     <>
-      <div class="tabs" role="tablist" aria-label="ロール">
+      <div class="tabs" role="tablist" aria-label="ロール" hidden={!!only}>
         {groups.map((g) => (
           <div class="tab-group">
             {full && <span class="tg">{g.title}</span>}
@@ -40,7 +40,7 @@ const tones = ['#5B574F', '#2E2D2A', '#8E887C', '#3F3D38', '#B4AE9F', '#4A4741']
       <div class="table">
         {shown.map((r, ri) => (
           <div class="sheet" data-roll={r.id} hidden={ri !== 0}>
-            <p class="sheet-head"><span>Roll {String(ri + 1).padStart(2, '0')} — {r.label}{r.period && ` · ${r.period}`}{r.note && ` · ${r.note}`}</span><span>{r.camera}</span></p>
+            <p class="sheet-head"><span>{r.label}{r.period && ` · ${r.period}`}{r.note && ` · ${r.note}`}{r.camera && ` · ${r.camera}`}</span>{!only && <a class="open" href={`/darkroom/${r.id}/`}>この旅のページへ →</a>}</p>
             {Array.from({ length: Math.ceil(r.frames.length / 6) }, (_, si) => (
               <div class="strip">
                 <div class="sprk"></div>
@@ -99,6 +99,8 @@ const tones = ['#5B574F', '#2E2D2A', '#8E887C', '#3F3D38', '#B4AE9F', '#4A4741']
   .no { font: 400 10px var(--f-mono); color: #E7A13A; }
   .ring { position: absolute; inset: -10px -8px 8px; border: 3px solid #E5483B; border-radius: 50%; transform: rotate(-4deg); opacity: 0; transition: opacity 0.2s; pointer-events: none; }
   .frame.seen .ring { opacity: 1; }
+  .open { color: #B5341C; text-decoration: none; font-weight: 500; }
+  .open:hover { text-decoration: underline; color: #B5341C; }
   .hint { margin: 4px 0 0; font: 400 11px var(--f-mono); color: #6E685D; }
   .empty .frames .blank { aspect-ratio: 3 / 2; display: block; }
   .empty-note { margin: 18px 0 0; font-size: 15px; color: var(--muted-on-dark); }

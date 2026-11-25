@@ -9,12 +9,13 @@
 | `/` | ハブ。各年を雑誌の「号」に見立てた表紙と、各部屋の入口 |
 | `/studyroom/` | noisy studyroom — ポッドキャストの全エピソード（YouTube から自動） |
 | `/darkroom/` | Darkroom — 写真のコンタクトシート。タップで全画面 |
+| `/darkroom/<フォルダ名>/` | 旅（ロール）ごとのページ。写真と、その旅の学び（`site.ts` の `journeys`） |
 | `/#archive` | Archive room — 年譜 |
 | `/#lab` | Lab room — 作品と、制作中・実験中のもの |
 | `/room/` | My room — 晴翔の部屋（3D。使えない端末では 2D） |
-| `/about/` | プロフィール（LinkedIn と同じ範囲） |
+| `/front-room/` | Front room — プロフィール（LinkedIn と同じ範囲） |
 
-`/photos/` と `/podcast/` は、それぞれ `/darkroom/` と `/studyroom/` に自動で転送される。
+`/photos/`・`/podcast/`・`/about/` は、それぞれ `/darkroom/`・`/studyroom/`・`/front-room/` に自動で転送される。
 
 ## 更新のしかた
 
