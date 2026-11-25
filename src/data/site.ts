@@ -85,12 +85,20 @@ export const issues: Issue[] = [
 export const currentIssue = '2026';
 
 // ---------- 作品 ----------
-export const featuredWork = {
-  title: 'QUIET FLIGHT',
+// kind = 種類（Web app / Video / Print など）、year = 制作年
+// youtube = YouTube の動画URL（入れるとサムネイル付きで表示。空なら非表示）
+// images = works/ の中のフォルダ名（パンフレットのページなど。タップで全画面）
+export type Work = { title: string; kind: string; year: string; body: string; url?: string; cta?: string; youtube?: string; images?: string; color?: string };
+export const featuredWork: Work = {
+  title: 'QUIET FLIGHT', kind: 'Web app', year: '2026',
   body: '時間をセットして、世界の空港へ飛ぶ集中タイマー。出発案内板で行き先を選び、搭乗券を受け取って離陸する。',
   url: 'https://hatoiro.github.io/quiet-flight/',
   cta: '搭乗する',
 };
+export const works: Work[] = [
+  { title: '三田春日神社 例大祭', kind: 'Video', year: '', body: '3年に1度の、三田春日神社の例大祭の映像。', youtube: '' },
+  { title: '運動会 青組パンフレット', kind: 'Print', year: '2024', body: '開成の運動会で、自分の組・青組のパンフレットをつくった。', images: 'aogumi-pamphlet', color: '#1F3E8C' },
+];
 export const lab = [
   { title: '三田春日神社 3D', note: '境内を歩いて参拝できるサイト', status: 'In progress' },
   { title: 'Lecture Tracker', note: '講義を聴き、スライドに注釈するAI', status: 'Prototype' },
@@ -110,7 +118,7 @@ export const hub = {
   instaTitle: '毎日のコマは、\nInstagram で。',
   instaSoon: 'アカウントは近日公開。',
   chronicleKicker: 'Chronicle — 年譜',
-  worksKicker: 'Works — Live',
+  worksKicker: 'Works — つくったもの',
   labHead: 'Lab — 実験中のもの',
   roomKicker: 'Experience',
   roomTitle: '人生を、',

@@ -3,6 +3,7 @@
 //   photos/tokyo/*.jpg         → 年のないフォルダは「いつもの」ロールとして先頭に
 //   photos/<ロール>/roll.json  → 任意: {"label": "瀬戸内", "note": "高校2年の旅", "camera": "Canon EOS R"}
 //   photos/covers/2026.jpg  → その年の号の表紙
+//   works/<作品名>/*.jpg    → 作品の画像（パンフレットのページなど）。ファイル名順に並ぶ
 // やること: 向きを直す → 2サイズの WebP に縮小 → 位置情報などのメタデータを全部消す → 一覧(JSON)を作る
 // 撮影日・レンズ・F値は、写真に記録されていれば自動で拾う。
 // 位置情報（GPS）が入った写真が見つかったら、公開を止めてエラーにする（このリポジトリは公開されているため）。
@@ -50,10 +51,24 @@ async function render(path, outBase, sizes) {
 }
 
 async function main() {
-  const manifest = { rolls: [], covers: {} };
-  if (!(await exists(SRC))) { await writeFile(MANIFEST, JSON.stringify(manifest, null, 2) + '\n'); return; }
+  const manifest = { rolls: [], covers: {}, works: {} };
   await mkdir(OUT, { recursive: true });
-  const dirs = (await readdir(SRC, { withFileTypes: true })).filter((d) => d.isDirectory()).map((d) => d.name).sort();
+
+  // 作品の画像
+  if (await exists('works')) {
+    for (const d of (await readdir('works', { withFileTypes: true })).filter((x) => x.isDirectory()).map((x) => x.name).sort()) {
+      const files = (await readdir(join('works', d))).filter((f) => IMG.has(extname(f).toLowerCase())).sort();
+      if (!files.length) continue;
+      await mkdir(join(OUT, 'works', d), { recursive: true });
+      manifest.works[d] = [];
+      for (const f of files) {
+        const path = join('works', d, f); await readMeta(path);
+        manifest.works[d].push({ title: titleFrom(f), ...(await render(path, `works/${d}/${basename(f, extname(f))}`, { thumb: 800, full: 2400 })) });
+      }
+    }
+  }
+
+  const dirs = (await exists(SRC)) ? (await readdir(SRC, { withFileTypes: true })).filter((d) => d.isDirectory()).map((d) => d.name).sort() : [];
 
   for (const dir of dirs) {
     const files = (await readdir(join(SRC, dir))).filter((f) => IMG.has(extname(f).toLowerCase())).sort();
@@ -76,8 +91,8 @@ async function main() {
     for (const f of files) {
       const path = join(SRC, dir, f);
       const meta = await readMeta(path);
-      const { src, thumb } = await render(path, `${dir}/${basename(f, extname(f))}`, { src: 1600, thumb: 480 });
-      roll.frames.push({ src, thumb, title: titleFrom(f), date: meta.date, lens: meta.lens, aperture: meta.aperture });
+      const { thumb, full } = await render(path, `${dir}/${basename(f, extname(f))}`, { thumb: 480, full: 2400 });
+      roll.frames.push({ thumb, full, title: titleFrom(f), date: meta.date, lens: meta.lens, aperture: meta.aperture });
       if (!roll.camera && meta.camera) roll.camera = meta.camera;
     }
     manifest.rolls.push(roll);
@@ -91,6 +106,6 @@ async function main() {
     process.exit(1);
   }
   await writeFile(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
-  console.log(`photos: ${manifest.rolls.reduce((n, r) => n + r.frames.length, 0)} frames in ${manifest.rolls.length} rolls, ${Object.keys(manifest.covers).length} covers`);
+  console.log(`photos: ${manifest.rolls.reduce((n, r) => n + r.frames.length, 0)} frames in ${manifest.rolls.length} rolls, ${Object.keys(manifest.covers).length} covers, ${Object.keys(manifest.works).length} works`);
 }
 main();

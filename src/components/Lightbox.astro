@@ -1,0 +1,76 @@
+---
+// 全画面ビューア。data-lb-src を持つ要素をクリックすると開く。
+// 同じ data-lb-group の要素どうしで、前へ / 次へ（矢印キー・スワイプも可）。
+---
+<dialog class="lb" data-lb aria-label="拡大表示">
+  <div class="lb-stage" data-lb-stage>
+    <img data-lb-img alt="" />
+  </div>
+  <div class="lb-bar">
+    <p class="lb-cap"><span data-lb-count></span><span data-lb-cap></span></p>
+    <div class="lb-btns">
+      <button type="button" data-lb-prev aria-label="前へ">←</button>
+      <button type="button" data-lb-next aria-label="次へ">→</button>
+      <button type="button" data-lb-close aria-label="閉じる">閉じる</button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  const dlg = document.querySelector<HTMLDialogElement>('[data-lb]')!;
+  const img = dlg.querySelector<HTMLImageElement>('[data-lb-img]')!;
+  const cap = dlg.querySelector<HTMLElement>('[data-lb-cap]')!;
+  const count = dlg.querySelector<HTMLElement>('[data-lb-count]')!;
+  let items: HTMLElement[] = [];
+  let i = 0;
+  const show = (n: number) => {
+    if (!items.length) return;
+    i = (n + items.length) % items.length;
+    const el = items[i];
+    img.classList.remove('ready');
+    img.onload = () => img.classList.add('ready');
+    img.src = el.dataset.lbSrc || '';
+    img.alt = el.dataset.lbCap || '';
+    cap.textContent = el.dataset.lbCap || '';
+    count.textContent = items.length > 1 ? `${i + 1} / ${items.length}` : '';
+    const next = items[(i + 1) % items.length];
+    if (next?.dataset.lbSrc) { const p = new Image(); p.src = next.dataset.lbSrc; }
+    el.dispatchEvent(new CustomEvent('lb:show', { bubbles: true }));
+  };
+  document.addEventListener('click', (e) => {
+    const t = (e.target as HTMLElement).closest<HTMLElement>('[data-lb-src]');
+    if (!t || dlg.contains(t)) return;
+    e.preventDefault();
+    const g = t.dataset.lbGroup;
+    items = g ? [...document.querySelectorAll<HTMLElement>(`[data-lb-src][data-lb-group="${g}"]`)] : [t];
+    if (!dlg.open) dlg.showModal();
+    show(items.indexOf(t));
+  });
+  dlg.querySelector('[data-lb-prev]')!.addEventListener('click', () => show(i - 1));
+  dlg.querySelector('[data-lb-next]')!.addEventListener('click', () => show(i + 1));
+  dlg.querySelector('[data-lb-close]')!.addEventListener('click', () => dlg.close());
+  dlg.addEventListener('click', (e) => { if (e.target === dlg || (e.target as HTMLElement).hasAttribute('data-lb-stage')) dlg.close(); });
+  dlg.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') { e.preventDefault(); show(i - 1); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); show(i + 1); }
+  });
+  let x0: number | null = null;
+  dlg.addEventListener('pointerdown', (e) => { x0 = e.clientX; });
+  dlg.addEventListener('pointerup', (e) => { if (x0 !== null && Math.abs(e.clientX - x0) > 50) show(i + (e.clientX < x0 ? 1 : -1)); x0 = null; });
+  dlg.addEventListener('close', () => { img.removeAttribute('src'); });
+</script>
+
+<style>
+  .lb { width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: rgba(12, 11, 10, 0.97); color: #EDE9DF; }
+  .lb::backdrop { background: rgba(0, 0, 0, 0.7); }
+  .lb[open] { display: flex; flex-direction: column; }
+  .lb-stage { flex: 1 1 auto; min-height: 0; display: flex; align-items: center; justify-content: center; padding: clamp(12px, 3vw, 40px); }
+  .lb-stage img { max-width: 100%; max-height: 100%; object-fit: contain; opacity: 0; transition: opacity 0.25s; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5); }
+  .lb-stage img.ready { opacity: 1; }
+  .lb-bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; padding: 12px clamp(16px, 3vw, 40px) 20px; }
+  .lb-cap { margin: 0; display: flex; flex-wrap: wrap; gap: 16px; font: 400 12px var(--f-mono); color: #CFCAC0; }
+  .lb-cap span:first-child { color: #E7A13A; }
+  .lb-btns { display: flex; gap: 8px; }
+  .lb-btns button { min-width: 48px; min-height: 48px; padding: 0 16px; border: 1px solid #4A4740; border-radius: 999px; background: transparent; color: #EDE9DF; cursor: pointer; font: 400 14px var(--f-mono); }
+  .lb-btns button:hover { border-color: #EDE9DF; }
+</style>

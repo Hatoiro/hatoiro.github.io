@@ -15,8 +15,9 @@
 ## 更新のしかた
 
 - **文章・年譜・SNS・作品**: `src/data/site.ts` を書き換える。空欄の項目はページに出ない。
-- **写真**: `public/photos/<ロール名>/` に画像を置き、`site.ts` の `rolls` にコマを足す。
-  公開前に位置情報（GPS）を必ず消すこと。
+- **写真**: `photos/<年-月-名前>/` に入れるだけ（`photos/README.md`）。位置情報入りは公開が止まる。
+- **作品の画像**（パンフレットのページなど）: `works/<名前>/` に入れて、`site.ts` の `works` で `images` に名前を書く（`works/README.md`）。
+- **作品の動画**: `site.ts` の `works` で `youtube` に URL を貼る。
 - **ポッドキャスト**: 何もしなくていい。毎朝と push のたびに YouTube の新着を取り込む。
 - **公開準備中の表示**: `site.ts` の `draft` を `false` にすると検索エンジンに載るようになる。
 

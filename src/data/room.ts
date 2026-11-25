@@ -2,7 +2,7 @@
 // 晴翔の部屋（/room/）で、物をタップしたときに出る文言。
 // kicker = 小さなラベル / title = 見出し / body = 本文 / items = 一覧 / links = ボタン
 // ------------------------------------------------------------
-import { podcast, instagram, featuredWork, lab } from './site';
+import { podcast, instagram, featuredWork, works, lab } from './site';
 
 type Ep = { title: string; published: string; url: string };
 type Link = { label: string; href: string; primary?: boolean };
@@ -19,7 +19,7 @@ export function roomPanels(latest?: Ep): Record<string, Panel> {
   camera: { kicker: 'Cabinet — Nikon F3 / Canon EOS R', title: 'Photographs', body: 'フィルムの Nikon F3 と、デジタルの Canon EOS R。オールドレンズをつけて、東京・パリ・ナイロビを撮る。', items: [{ t: 'Nikon F3', s: 'フィルム' }, { t: 'Canon EOS R', s: 'デジタル · オールドレンズで' }],
     links: [L('暗室で写真を見る', '/photos/', true), ...(instagram.url ? [L(`Instagram @${instagram.handle}`, instagram.url)] : [])] },
   turntable: { kicker: 'Cabinet — turntable', title: 'Now spinning', body: 'キャビネットの上のターンテーブル。いま回っているのは――', items: [{ t: 'Kiss All the Time, Disco Occasionally', s: 'Harry Styles' }], links: [] },
-  pc: { kicker: 'Desk — MacBook', title: 'Works', body: '机のパソコンで、つくっているもの。', items: [{ t: featuredWork.title, s: '公開中' }, ...lab.map((w) => ({ t: w.title, s: w.note }))],
+  pc: { kicker: 'Desk — MacBook', title: 'Works', body: '机のパソコンで、つくっているもの。', items: [{ t: featuredWork.title, s: '公開中' }, ...works.filter((w) => w.kind !== 'Video' || w.youtube).map((w) => ({ t: w.title, s: [w.kind, w.year].filter(Boolean).join(' · ') })), ...lab.map((w) => ({ t: w.title, s: w.note }))],
     links: [L(`${featuredWork.title} に${featuredWork.cta.replace('する', '')}`, featuredWork.url, true), L('作品一覧', '/#works')] },
   guitar: { kicker: 'Corner — guitars', title: 'Music', body: 'レスポールタイプのエレキ（青）と、ヤマハのアコギ（茶）。', items: [], links: [] },
   piano: { kicker: 'Left wall — Yamaha upright', title: 'Piano & Records', body: 'コンパクトなヤマハのアップライトピアノ。最近はあまり弾いていなくて、上はレコードと地球儀の置き場になっている。', items: [{ t: 'Harry Styles' }, { t: 'SZA' }], links: [] },
