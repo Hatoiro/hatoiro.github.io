@@ -56,7 +56,7 @@ export const issues: Issue[] = [
     id: '2025', tab: '2025', big: '2025', kicker: 'Issue 2025', theme: '東京大学へ。投資の現場へ。', tone: '#2E3136',
     lines: [
       { k: 'Graduation', v: '開成高校、卒業' },
-      { k: 'University', v: '東京大学で教養を' },
+      { k: 'University', v: '東京大学入学' },
       { k: 'Venture capital', v: 'HIRAC FUND でインターン開始' },
     ],
     entries: [
@@ -69,9 +69,9 @@ export const issues: Issue[] = [
     id: '2026', tab: '2026 NOW', big: '2026', kicker: 'Issue 2026 · Now', theme: '外に出て、つくりはじめた年。', tone: '#26221E',
     lines: [
       { k: 'Podcast', v: 'noisystudyroom — 友人と、人生をふかぼる' },
-      { k: 'Photographs', v: '東京・パリ・ロンドン・ケニアを、オールドレンズで' },
+      { k: 'Photographs', v: '東京・パリ・ケニアを、オールドレンズで' },
       { k: 'Journeys', v: 'Sciences Po での学びと、ケニアのスタディツアー' },
-      { k: 'Works', v: 'QUIET FLIGHTやLecture Tracker作成' },
+      { k: 'Works', v: 'QUIET FLIGHT・Lecture Tracker' },
     ],
     entries: [
       { m: '02–03', tag: 'Journey', title: 'Sciences Po, Paris', body: 'Spring school で EU affairs を。EU経済と物流を学ぶ。' },
