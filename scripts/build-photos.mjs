@@ -1,7 +1,7 @@
 // photos/ フォルダの写真を、サイト用に自動で加工する。
 //   photos/2026-03-paris/*.jpg → 暗室のロール。「年-月-名前」で、新しい順に並ぶ（月は省略可）
 //   photos/tokyo/*.jpg         → 年のないフォルダは「いつもの」ロールとして先頭に
-//   photos/<ロール>/roll.json  → 任意: {"label": "瀬戸内", "note": "高校2年の旅", "camera": "Canon EOS R"}
+//   photos/<ロール>/roll.json  → 任意: {"label": "瀬戸内", "period": "2024.08", "note": "高校2年の旅", "camera": "Canon EOS R"}
 //   photos/covers/2026.jpg  → その年の号の表紙
 //   works/<作品名>/*.jpg    → 作品の画像（パンフレットのページなど）。ファイル名順に並ぶ
 // やること: 向きを直す → 2サイズの WebP に縮小 → 位置情報などのメタデータを全部消す → 一覧(JSON)を作る
@@ -86,7 +86,7 @@ async function main() {
     const m = dir.match(/^(\d{4})(?:-(\d{1,2}))?[-_ ](.+)$/);
     const year = m ? m[1] : '', month = m && m[2] ? m[2].padStart(2, '0') : '';
     const slug = m ? m[3] : dir.replace(/^\d+[-_ ]*/, '');
-    const roll = { id: dir.replace(/[^\w-]/g, '-'), label: conf.label || labelFrom(slug), note: conf.note || '', year, period: year ? (month ? `${year}.${month}` : year) : '',
+    const roll = { id: dir.replace(/[^\w-]/g, '-'), label: conf.label || labelFrom(slug), note: conf.note || '', year, period: conf.period || (year ? (month ? `${year}.${month}` : year) : ''),
       sort: year ? `${year}-${month || '00'}` : '9999', camera: conf.camera || '', frames: [] };
     for (const f of files) {
       const path = join(SRC, dir, f);
