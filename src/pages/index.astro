@@ -49,7 +49,7 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
     </section>
 
     <!-- ===== Podcast ===== -->
-    <section id="podcast" class="wrap band">
+    <section id="studyroom" class="wrap band">
       <div class="head">
         <div>
           <p class="kicker">{hub.podcastKicker}</p>
@@ -71,7 +71,7 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
           <div class="btns">
             <a class="btn solid" href={latest?.url ?? podcast.youtube}>YouTube で見る</a>
             {podcast.spotify && <a class="btn" href={podcast.spotify}>Spotify で聴く</a>}
-            <a class="btn" href="/podcast/">全エピソード</a>
+            <a class="btn" href="/studyroom/">全エピソード</a>
           </div>
         </div>
       </div>
@@ -85,7 +85,7 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
     </section>
 
     <!-- ===== Darkroom ===== -->
-    <section id="photos" class="dark darkroom-band">
+    <section id="darkroom" class="dark darkroom-band">
       <div class="wrap">
         <div class="head">
           <div>
@@ -100,14 +100,15 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
             <p class="kicker">Instagram</p>
             <p class="insta-title">{hub.instaTitle}</p>
             {instagram.url ? <a class="btn solid" href={instagram.url}>@{instagram.handle} をフォロー</a> : <p class="soon">{hub.instaSoon}</p>}
-            <a class="btn" href="/photos/">暗室をぜんぶ見る</a>
+            <a class="btn" href="/darkroom/">Darkroom をぜんぶ見る</a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ===== Chronicle ===== -->
-    <section id="chronicle" class="wrap band">
+    <!-- ===== Archive room (年譜) ===== -->
+    <section id="archive" class="wrap band">
+      <h2 class="sec-title archive-title">Archive <span class="thin">room</span></h2>
       <div class="chron">
         <div class="chron-side">
           <div class="sticky">
@@ -138,10 +139,10 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
       </div>
     </section>
 
-    <!-- ===== Works ===== -->
-    <section id="works" class="wrap band works">
+    <!-- ===== Lab room (作品) ===== -->
+    <section id="lab" class="wrap band works">
       <p class="kicker">{hub.worksKicker}</p>
-      <h2 class="sec-title">Things <span class="thin">made</span></h2>
+      <h2 class="sec-title">Lab <span class="thin">room</span></h2>
       <div class="works-grid">
         <a class="feature" href={featuredWork.url}>
           <span class="meta light">{featuredWork.kind} · {featuredWork.year} · Live</span>
@@ -184,7 +185,7 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
       </div>
     </section>
 
-    <!-- ===== Room ===== -->
+    <!-- ===== My room ===== -->
     <a class="room-band" href="/room/">
       <span class="wrap room-inner">
         <span>
@@ -287,6 +288,7 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
   .insta-title { margin: 0; flex: 1 1 280px; font: 400 clamp(36px, 5vw, 64px)/1 var(--f-serif); white-space: pre-line; }
   .soon { margin: 0; color: var(--muted-on-dark); }
 
+  .archive-title { margin-bottom: 48px; }
   .chron { display: flex; flex-wrap: wrap; gap: 48px; }
   .chron-side { flex: 1 1 300px; }
   .sticky { position: sticky; top: 96px; }

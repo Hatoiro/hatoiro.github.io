@@ -2,15 +2,19 @@
 
 石黒晴翔 / Haruto Ishiguro の個人サイト。Astro でつくり、GitHub Pages で公開している。
 
-## ページ
+## ページ（サイトは「部屋」の集まり）
 
-| URL | 中身 |
+| URL | 部屋 |
 |---|---|
-| `/` | ハブ。各年を雑誌の「号」に見立てた表紙、ポッドキャスト、暗室、年譜、作品 |
-| `/room/` | 晴翔の部屋（3D。使えない端末では 2D） |
-| `/photos/` | 暗室。写真のコンタクトシートとルーペ |
-| `/podcast/` | noisystudyroom の全エピソード（YouTube から自動） |
+| `/` | ハブ。各年を雑誌の「号」に見立てた表紙と、各部屋の入口 |
+| `/studyroom/` | noisy studyroom — ポッドキャストの全エピソード（YouTube から自動） |
+| `/darkroom/` | Darkroom — 写真のコンタクトシート。タップで全画面 |
+| `/#archive` | Archive room — 年譜 |
+| `/#lab` | Lab room — 作品と、制作中・実験中のもの |
+| `/room/` | My room — 晴翔の部屋（3D。使えない端末では 2D） |
 | `/about/` | プロフィール（LinkedIn と同じ範囲） |
+
+`/photos/` と `/podcast/` は、それぞれ `/darkroom/` と `/studyroom/` に自動で転送される。
 
 ## 更新のしかた
 

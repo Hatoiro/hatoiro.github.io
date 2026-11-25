@@ -1,9 +1,10 @@
 ---
+// サイトは「部屋」の集まり。ナビもそれぞれの部屋へのドア
 const nav = [
-  { href: '/#podcast', label: 'Podcast' },
-  { href: '/photos/', label: 'Photos' },
-  { href: '/#chronicle', label: 'Chronicle' },
-  { href: '/#works', label: 'Works' },
+  { href: '/#studyroom', label: 'Studyroom' },
+  { href: '/darkroom/', label: 'Darkroom' },
+  { href: '/#archive', label: 'Archive room' },
+  { href: '/#lab', label: 'Lab room' },
   { href: '/about/', label: 'About' },
 ];
 ---
@@ -12,7 +13,7 @@ const nav = [
     <a href="/" class="mark"><span class="ja">石黒晴翔</span><span class="en">Haruto Ishiguro</span></a>
     <nav aria-label="メイン">
       {nav.map((n) => <a href={n.href}>{n.label}</a>)}
-      <a href="/room/" class="room">Room ↗</a>
+      <a href="/room/" class="room">My room ↗</a>
     </nav>
   </div>
 </header>

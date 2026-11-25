@@ -8,7 +8,7 @@ type Roll = { id: string; label: string; note?: string; year?: string; period?: 
 interface Props { full?: boolean }
 const { full = false } = Astro.props;
 const rolls = (photos.rolls as Roll[]).filter((r) => r.frames.length);
-// ハブでは新しいロール4本まで、各12コマまで。/photos/ では全部
+// ハブでは新しいロール4本まで、各12コマまで。/darkroom/ では全部
 const shown = full ? rolls : rolls.slice(0, 4).map((r) => ({ ...r, frames: r.frames.slice(0, 12) }));
 const groups: { title: string; rolls: { r: Roll; i: number }[] }[] = [];
 shown.forEach((r, i) => { const t = r.year || 'Everyday'; const g = groups.find((x) => x.title === t); g ? g.rolls.push({ r, i }) : groups.push({ title: t, rolls: [{ r, i }] }); });

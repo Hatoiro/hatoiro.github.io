@@ -8,10 +8,10 @@ type Ep = { id: string; title: string; published: string; thumbnail: string; url
 const eps = episodes as Ep[];
 const fmt = (d: string) => d.slice(0, 10).replaceAll('-', '.');
 ---
-<Base title="Podcast" description={`${podcast.name} — ${podcast.tagline}${podcast.about}`}>
+<Base title="noisy studyroom" description={`${podcast.name} — ${podcast.tagline}${podcast.about}`}>
   <SiteHeader />
   <main class="wrap page">
-    <p class="kicker">● Podcast</p>
+    <p class="kicker">● Studyroom — Podcast</p>
     <h1 class="sec-title">noisy<span class="thin">studyroom</span></h1>
     <p class="lede">{podcast.about}</p>
     <p class="btns">

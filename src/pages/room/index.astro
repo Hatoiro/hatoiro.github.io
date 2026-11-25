@@ -8,10 +8,10 @@ const latest = (episodes as { title: string; published: string; url: string }[])
 const panels = roomPanels(latest);
 const data = JSON.stringify({ panels, order, names, pos2d }).replace(/</g, '\\u003c');
 ---
-<Base title="晴翔の部屋" description="石黒晴翔の部屋を、3Dで歩き回る。物をタップすると、その物にまつわる話が開く。" bodyClass="room-page">
+<Base title="My room" description="石黒晴翔の部屋を、3Dで歩き回る。物をタップすると、その物にまつわる話が開く。" bodyClass="room-page">
   <div class="app">
     <header class="bar">
-      <a href="/" class="brand"><span class="t">晴翔の<em>部屋</em></span><span class="s">石黒晴翔</span></a>
+      <a href="/" class="brand"><span class="t">My <em>room</em></span><span class="s">晴翔の部屋</span></a>
       <div class="ctrls">
         <div class="seg" role="group" aria-label="時間帯">
           <button type="button" data-tod="morning" aria-pressed="false">朝</button>
