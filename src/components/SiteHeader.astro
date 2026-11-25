@@ -18,7 +18,10 @@ const nav = [
 </header>
 
 <style>
-  .site-header { position: sticky; top: 0; z-index: 20; background: rgba(243, 239, 230, 0.9); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--ink); }
+  .site-header { position: sticky; top: 0; z-index: 20; background: rgba(243, 239, 230, 0.9); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--ink); transition: background 0.35s, color 0.35s, border-color 0.35s; }
+  .site-header.on-cover { background: var(--cover-tone, #26221E); color: #F3EFE6; border-bottom-color: transparent; }
+  .site-header.on-cover a:hover { color: #FF6A4D; }
+  .site-header.on-cover nav .room { color: #FF6A4D; }
   .bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px 24px; padding-block: 14px; }
   .mark { display: flex; align-items: baseline; gap: 12px; text-decoration: none; }
   .mark .ja { font-size: 19px; font-weight: var(--w-black); letter-spacing: 0.16em; }

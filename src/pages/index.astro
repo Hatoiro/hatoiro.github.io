@@ -3,7 +3,8 @@ import Base from '../layouts/Base.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import Darkroom from '../components/Darkroom.astro';
-import { profile, podcast, instagram, issues, currentIssue, featuredWork, lab } from '../data/site';
+import { profile, podcast, instagram, issues, currentIssue, featuredWork, lab, hub } from '../data/site';
+import photos from '../data/photos.json';
 import episodes from '../data/episodes.json';
 
 type Ep = { id: string; title: string; published: string; thumbnail: string; url: string };
@@ -11,29 +12,35 @@ const eps = episodes as Ep[];
 const latest = eps[0];
 const recent = eps.slice(1, 5);
 const fmt = (d: string) => d ? d.slice(0, 10).replaceAll('-', '.') : '';
+const covers = photos.covers as Record<string, string>;
 const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d: ((i * 0.07) % 1.3).toFixed(2) }));
 ---
 <Base>
   <SiteHeader />
   <main>
-    <!-- ===== Cover: each year is an issue ===== -->
-    <section class="wrap cover-wrap" aria-label="表紙">
-      {issues.map((iss) => (
-        <div class="cover" data-issue-panel={iss.id} hidden={iss.id !== currentIssue} style={`--tone:${iss.tone}`}>
-          <div class="cover-top"><span>The Haruto Ishiguro Archive</span><span>{iss.kicker}</span></div>
-          <h1 class="masthead">Haruto<br />Ishiguro</h1>
-          <ol class="lines">
-            {iss.lines.map((l) => <li><span class="k">{l.k}</span><span class="v">{l.v}</span></li>)}
-          </ol>
-          <p class="big-year" aria-hidden="true">{iss.big}</p>
-          <p class="vert" aria-hidden="true">{profile.nameJa}</p>
-        </div>
-      ))}
-      <div class="issue-tabs" role="group" aria-label="号を選ぶ">
-        <span class="back">Back issues ←</span>
+    <!-- ===== Cover: each year is an issue. Full screen at first, pulls back into a card on scroll ===== -->
+    <section class="cover-stage" aria-label="表紙" data-cover-stage>
+      <div class="cover-clip dark">
         {issues.map((iss) => (
-          <button type="button" class="pill" data-issue={iss.id} aria-pressed={iss.id === currentIssue ? 'true' : 'false'}>{iss.tab}</button>
+          <div class="cover" data-issue-panel={iss.id} data-tone={iss.tone} hidden={iss.id !== currentIssue} style={`--tone:${iss.tone}`}>
+            {covers[iss.id] && <img class="cover-bg" src={covers[iss.id]} alt="" />}
+            <div class="cover-inner">
+              <div class="cover-top"><span>The Haruto Ishiguro Archive</span><span>{iss.kicker}</span></div>
+              <h1 class="masthead">Haruto<br />Ishiguro</h1>
+              <ol class="lines">
+                {iss.lines.map((l) => <li><span class="k">{l.k}</span><span class="v">{l.v}</span></li>)}
+              </ol>
+            </div>
+            <p class="big-year" aria-hidden="true">{iss.big}</p>
+            <p class="vert" aria-hidden="true">{profile.nameJa}</p>
+          </div>
         ))}
+        <div class="issue-tabs" role="group" aria-label="号を選ぶ">
+          <span class="back">Back issues ←</span>
+          {issues.map((iss) => (
+            <button type="button" class="pill" data-issue={iss.id} aria-pressed={iss.id === currentIssue ? 'true' : 'false'}>{iss.tab}</button>
+          ))}
+        </div>
       </div>
     </section>
 
@@ -41,7 +48,7 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
     <section id="podcast" class="wrap band">
       <div class="head">
         <div>
-          <p class="kicker">● Now playing — Podcast</p>
+          <p class="kicker">{hub.podcastKicker}</p>
           <h2 class="sec-title">noisy<span class="thin">studyroom</span></h2>
         </div>
         <p class="lede">{podcast.tagline}{podcast.about.replace(podcast.tagline, '')}</p>
@@ -78,17 +85,17 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
       <div class="wrap">
         <div class="head">
           <div>
-            <p class="kicker">▸ Darkroom — Photographs</p>
+            <p class="kicker">{hub.darkroomKicker}</p>
             <h2 class="sec-title">Dark<span class="thin">room</span></h2>
           </div>
-          <p class="lede">Canon EOS R と Nikon F3、オールドレンズで撮ったもの。良いコマには赤丸を。</p>
+          <p class="lede">{hub.darkroomLede}</p>
         </div>
         <Darkroom />
         <div class="insta">
           <div class="insta-text">
             <p class="kicker">Instagram</p>
-            <p class="insta-title">毎日のコマは、<br />Instagram で。</p>
-            {instagram.url ? <a class="btn solid" href={instagram.url}>@{instagram.handle} をフォロー</a> : <p class="soon">アカウントは近日公開。</p>}
+            <p class="insta-title">{hub.instaTitle}</p>
+            {instagram.url ? <a class="btn solid" href={instagram.url}>@{instagram.handle} をフォロー</a> : <p class="soon">{hub.instaSoon}</p>}
             <a class="btn" href="/photos/">暗室をぜんぶ見る</a>
           </div>
         </div>
@@ -100,7 +107,7 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
       <div class="chron">
         <div class="chron-side">
           <div class="sticky">
-            <p class="kicker">Chronicle — 年譜</p>
+            <p class="kicker">{hub.chronicleKicker}</p>
             {issues.map((iss) => (
               <div data-issue-panel={iss.id} hidden={iss.id !== currentIssue}>
                 <p class="chron-year">{iss.big}</p>
@@ -130,13 +137,13 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
     <!-- ===== Works ===== -->
     <section id="works" class="wrap band works">
       <a class="feature" href={featuredWork.url}>
-        <span class="kicker">Works — Live</span>
+        <span class="kicker">{hub.worksKicker}</span>
         <span class="feature-name">{featuredWork.title}</span>
         <span class="feature-body">{featuredWork.body}</span>
         <span class="feature-cta">{featuredWork.cta} →</span>
       </a>
       <div class="lab">
-        <p class="lab-head">Lab — 実験中のもの</p>
+        <p class="lab-head">{hub.labHead}</p>
         <ul>
           {lab.map((w) => <li><span><strong>{w.title}</strong><span>{w.note}</span></span><span class="st">{w.status}</span></li>)}
         </ul>
@@ -147,11 +154,11 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
     <a class="room-band" href="/room/">
       <span class="wrap room-inner">
         <span>
-          <span class="kicker light">Experience</span>
-          <span class="room-title">人生を、<em>体感する。</em></span>
-          <span class="room-sub">晴翔の部屋に入って、物をタップすると、その物にまつわる話が開く。</span>
+          <span class="kicker light">{hub.roomKicker}</span>
+          <span class="room-title">{hub.roomTitle}<em>{hub.roomTitleItalic}</em></span>
+          <span class="room-sub">{hub.roomSub}</span>
         </span>
-        <span class="btn">部屋へ →</span>
+        <span class="btn">{hub.roomCta}</span>
       </span>
     </a>
   </main>
@@ -160,28 +167,59 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
 
 <script>
   const btns = document.querySelectorAll<HTMLButtonElement>('[data-issue]');
+  const root = document.documentElement;
   const show = (id: string) => {
-    document.querySelectorAll<HTMLElement>('[data-issue-panel]').forEach((p) => { p.hidden = p.dataset.issuePanel !== id; });
+    document.querySelectorAll<HTMLElement>('[data-issue-panel]').forEach((p) => {
+      p.hidden = p.dataset.issuePanel !== id;
+      if (!p.hidden && p.dataset.tone) root.style.setProperty('--cover-tone', p.dataset.tone);
+    });
     btns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.issue === id)));
   };
   btns.forEach((b) => b.addEventListener('click', () => show(b.dataset.issue!)));
+  const first = document.querySelector<HTMLElement>('.cover:not([hidden])');
+  if (first?.dataset.tone) root.style.setProperty('--cover-tone', first.dataset.tone);
+
+  // Full-screen cover → pulls back into a card as you scroll (driven by --p, 0..1)
+  const stage = document.querySelector<HTMLElement>('[data-cover-stage]');
+  const header = document.querySelector<HTMLElement>('.site-header');
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let queued = false;
+  const update = () => {
+    queued = false;
+    if (!stage) return;
+    const p = still ? 0 : Math.min(1, Math.max(0, scrollY / (stage.offsetHeight * 0.55)));
+    stage.style.setProperty('--p', p.toFixed(3));
+    header?.classList.toggle('on-cover', scrollY < stage.offsetHeight * 0.3);
+    if (header) root.style.setProperty('--hdr', header.offsetHeight + 'px');
+  };
+  addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(update); } }, { passive: true });
+  addEventListener('resize', update);
+  update();
 </script>
 
 <style>
-  .cover-wrap { padding-top: 28px; }
-  .cover { position: relative; min-height: min(820px, 92vh); background: var(--tone); color: #F3EFE6; overflow: hidden; padding: 32px clamp(20px, 4vw, 44px) 40px; animation: fade 0.5s ease-out; }
+  .cover-stage { --p: 0; --side: max(var(--pad), calc((100vw - var(--max)) / 2 + var(--pad))); position: relative; height: calc(100svh - var(--hdr, 58px)); min-height: 620px; }
+  .cover-clip { position: absolute; inset: 0; overflow: hidden; background: var(--cover-tone, #26221E);
+    clip-path: inset(calc(var(--p) * 28px) calc(var(--p) * var(--side)) calc(var(--p) * 56px) calc(var(--p) * var(--side)));
+    transition: background 0.5s; will-change: clip-path; }
+  .cover { position: absolute; inset: 0; background: var(--tone); color: #F3EFE6; animation: fade 0.5s ease-out; }
   @keyframes fade { from { opacity: 0.4; } to { opacity: 1; } }
+  .cover-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.45; }
+  .cover-inner { position: relative; z-index: 1; height: 100%; display: flex; flex-direction: column; padding: 28px calc(var(--side) + clamp(16px, 3vw, 44px)) 120px;
+    transform: scale(calc(1 - var(--p) * 0.04)); transform-origin: 50% 0; }
   .cover-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; font: 400 12px var(--f-mono); letter-spacing: 0.12em; text-transform: uppercase; }
-  .masthead { margin: 10px 0 0; font: 400 clamp(72px, 14vw, 176px)/0.86 var(--f-display); letter-spacing: -0.005em; text-transform: uppercase; position: relative; z-index: 1; }
-  .lines { list-style: none; margin: 56px 0 0; padding: 0; max-width: 440px; display: flex; flex-direction: column; gap: 20px; position: relative; z-index: 1; }
+  .masthead { margin: 12px 0 0; font: 400 clamp(84px, 16vw, 236px)/0.84 var(--f-display); letter-spacing: -0.005em; text-transform: uppercase; }
+  .lines { list-style: none; margin: auto 0 0; padding: 24px 0 0; max-width: 480px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); gap: 18px 28px; }
   .lines li { display: flex; flex-direction: column; gap: 2px; }
   .lines .k { font: 400 11px var(--f-mono); color: var(--red-on-dark); letter-spacing: 0.14em; text-transform: uppercase; }
-  .lines .v { font: 400 clamp(24px, 3.2vw, 34px)/1.1 var(--f-serif); }
-  .big-year { position: absolute; right: 28px; bottom: -0.1em; margin: 0; font: 400 clamp(140px, 24vw, 300px)/1 var(--f-display); color: transparent; -webkit-text-stroke: 2px rgba(243, 239, 230, 0.85); }
-  .vert { position: absolute; right: 32px; top: 110px; margin: 0; writing-mode: vertical-rl; font-size: 14px; font-weight: var(--w-bold); letter-spacing: 0.5em; }
-  @media (max-width: 700px) { .vert { display: none; } }
-  .issue-tabs { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 16px 0 0; }
-  .issue-tabs .back { font: 400 11px var(--f-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-right: 6px; }
+  .lines .v { font: 400 clamp(22px, 2.4vw, 30px)/1.15 var(--f-serif); }
+  .big-year { position: absolute; right: calc(var(--side) + 8px); bottom: -0.1em; margin: 0; font: 400 clamp(150px, 21vw, 300px)/1 var(--f-display); color: transparent; -webkit-text-stroke: 2px rgba(243, 239, 230, 0.85); pointer-events: none; }
+  .vert { position: absolute; right: calc(var(--side) + 12px); top: 120px; margin: 0; writing-mode: vertical-rl; font-size: 14px; font-weight: var(--w-bold); letter-spacing: 0.5em; }
+  .issue-tabs { position: absolute; z-index: 2; left: calc(var(--side) + clamp(16px, 3vw, 44px)); bottom: calc(28px + var(--p) * 56px); display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .issue-tabs .back { font: 400 11px var(--f-mono); letter-spacing: 0.12em; text-transform: uppercase; color: rgba(243, 239, 230, 0.7); margin-right: 6px; }
+  .issue-tabs .pill { border-color: rgba(243, 239, 230, 0.6); }
+  @media (max-width: 700px) { .vert, .big-year, .issue-tabs .back { display: none; } .lines { max-width: none; } .cover-inner { padding-bottom: 104px; } }
+  @media (max-width: 700px) and (max-height: 760px) { .lines li:nth-child(n+3) { display: none; } }
 
   .band { padding-block: clamp(72px, 10vw, 120px); }
   .head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: 36px; }
@@ -211,7 +249,7 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
   .darkroom-band .lede { color: #CFCAC0; }
   .insta { margin-top: 88px; }
   .insta-text { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px; }
-  .insta-title { margin: 0; flex: 1 1 280px; font: 400 clamp(36px, 5vw, 64px)/1 var(--f-serif); }
+  .insta-title { margin: 0; flex: 1 1 280px; font: 400 clamp(36px, 5vw, 64px)/1 var(--f-serif); white-space: pre-line; }
   .soon { margin: 0; color: var(--muted-on-dark); }
 
   .chron { display: flex; flex-wrap: wrap; gap: 48px; }

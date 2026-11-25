@@ -3,13 +3,16 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "astro dev",
+    "dev": "node scripts/build-photos.mjs && astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "episodes": "node scripts/fetch-youtube.mjs"
+    "episodes": "node scripts/fetch-youtube.mjs",
+    "photos": "node scripts/build-photos.mjs"
   },
   "dependencies": {
     "astro": "5.18.2",
+    "exifr": "^7.1.3",
+    "sharp": "^0.34.5",
     "three": "0.170.0"
   }
 }

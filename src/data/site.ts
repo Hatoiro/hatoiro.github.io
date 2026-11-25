@@ -1,5 +1,5 @@
 // ------------------------------------------------------------
-// サイトの中身はほぼすべてここで管理する。
+// サイトの文言はほぼすべてここで管理する（部屋の中の説明だけは room.ts）。
 // 空欄（'' や null）の項目はページに出ない仕組みなので、
 // 決まったものから埋めていけばいい。
 // ------------------------------------------------------------
@@ -99,14 +99,25 @@ export const lab = [
 ];
 
 // ---------- 写真（暗室） ----------
-// 写真を public/photos/<roll>/ に置いて、ここにコマを足す。
-// 例: { src: '/photos/paris/01.webp', title: 'Paris, morning', date: '2026 Spring', lens: 'Helios 44-2', aperture: 'f/2' }
-export type Frame = { src: string; title: string; date?: string; lens?: string; aperture?: string };
-export const rolls: { id: string; label: string; camera: string; frames: Frame[] }[] = [
-  { id: 'tokyo', label: 'Tokyo', camera: 'Canon EOS R', frames: [] },
-  { id: 'paris', label: 'Paris', camera: 'Canon EOS R', frames: [] },
-  { id: 'nairobi', label: 'Nairobi', camera: 'Canon EOS R', frames: [] },
-];
+// 写真は photos/ フォルダに入れるだけ（photos/README.md 参照）。ここに書く必要はない。
+
+// ---------- ハブの文言 ----------
+export const hub = {
+  podcastKicker: '● Now playing — Podcast',
+  darkroomKicker: '▸ Darkroom — Photographs',
+  darkroomLede: 'Canon EOS R と Nikon F3、オールドレンズで撮ったもの。良いコマには赤丸を。',
+  darkroomEmpty: '現像中。写真は、東京・パリ・ナイロビのロールから順にここへ並びます。',
+  instaTitle: '毎日のコマは、\nInstagram で。',
+  instaSoon: 'アカウントは近日公開。',
+  chronicleKicker: 'Chronicle — 年譜',
+  worksKicker: 'Works — Live',
+  labHead: 'Lab — 実験中のもの',
+  roomKicker: 'Experience',
+  roomTitle: '人生を、',
+  roomTitleItalic: '体感する。',
+  roomSub: '晴翔の部屋に入って、物をタップすると、その物にまつわる話が開く。',
+  roomCta: '部屋へ →',
+};
 
 // ---------- プロフィール（LinkedIn と同じ範囲） ----------
 export const experience = [

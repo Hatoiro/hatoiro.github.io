@@ -1,6 +1,10 @@
 ---
 // Contact sheets + loupe. Used on the hub (first rolls) and on /photos/ (everything).
-import { rolls } from '../data/site';
+// Frames come from photos/ via scripts/build-photos.mjs → src/data/photos.json.
+import photos from '../data/photos.json';
+import { hub } from '../data/site';
+type Frame = { src: string; thumb: string; title: string; date?: string; lens?: string; aperture?: string };
+const rolls = photos.rolls as { id: string; label: string; camera: string; frames: Frame[] }[];
 interface Props { full?: boolean }
 const { full = false } = Astro.props;
 const withFrames = rolls.filter((r) => r.frames.length);
@@ -16,7 +20,7 @@ const tones = ['#5B574F', '#2E2D2A', '#8E887C', '#3F3D38', '#B4AE9F', '#4A4741']
         <div class="frames">{tones.map((t) => <span class="blank" style={`background:${t}`}></span>)}</div>
         <div class="sprk"></div>
       </div>
-      <p class="empty-note">現像中。写真は、東京・パリ・ナイロビのロールから順にここへ並びます。</p>
+      <p class="empty-note">{hub.darkroomEmpty}</p>
     </div>
   ) : (
     <>
@@ -38,7 +42,7 @@ const tones = ['#5B574F', '#2E2D2A', '#8E887C', '#3F3D38', '#B4AE9F', '#4A4741']
                       <button type="button" class="frame" aria-pressed={ri === 0 && si === 0 && fi === 0 ? 'true' : 'false'}
                         data-src={f.src} data-title={f.title} data-meta={[r.label, f.date, f.lens, f.aperture].filter(Boolean).join(' · ')}
                         data-no={`${String(ri + 1).padStart(2, '0')} · ${si * 6 + fi + 1}`} aria-label={f.title || `${r.label} ${si * 6 + fi + 1}`}>
-                        <img src={f.src} alt="" loading="lazy" decoding="async" />
+                        <img src={f.thumb} alt="" loading="lazy" decoding="async" />
                         <span class="no">▸ {si * 6 + fi + 1}</span>
                         <span class="ring" aria-hidden="true"></span>
                       </button>

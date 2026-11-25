@@ -2,7 +2,8 @@
    VOICE: a personal archive that reads like a fashion magazine — calm, confident, a little playful.
    IDEA: every year is an issue; the darkroom is where photographs live.
    COLOUR: ivory / ink / darkroom red. Night sections go dark.
-   TYPE: Anton for names and years, Instrument Serif (italic) for section titles, Noto Sans JP for text, DM Mono for labels.
+   TYPE: Anton for names and years, Instrument Serif (italic) for section titles, Noto Sans for Latin text,
+         Murecho for every Japanese character (it sits behind each Latin face as the fallback), DM Mono for labels.
    LAYOUT: 1240px content, full-bleed bands, generous air. */
 
 :root {
@@ -14,9 +15,9 @@
   --muted-on-dark: #A8A39A;
   --line: #CFC9BC;
   --line-on-dark: #3A3833;
-  --font: 'Noto Sans JP', system-ui, -apple-system, 'Hiragino Sans', sans-serif;
-  --f-display: 'Anton', 'Noto Sans JP', Impact, sans-serif;
-  --f-serif: 'Instrument Serif', 'Noto Sans JP', Georgia, serif;
+  --font: 'Noto Sans', 'Murecho', system-ui, -apple-system, 'Hiragino Sans', sans-serif;
+  --f-display: 'Anton', 'Murecho', Impact, sans-serif;
+  --f-serif: 'Instrument Serif', 'Murecho', system-ui, sans-serif;
   --f-mono: 'DM Mono', ui-monospace, monospace;
   --w-thin: 200;
   --w-text: 400;
