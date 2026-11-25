@@ -18,12 +18,12 @@ export const profile = {
 // SNS — URL が空のものは表示されない
 export const socials = [
   { name: 'YouTube', handle: '@noisystudyroom', url: 'https://www.youtube.com/@noisystudyroom' },
-  { name: 'Spotify', handle: 'noisystudyroom', url: 'https://open.spotify.com/show/033XrQOUG2qLNHDLtBC7ce?si=SnCsfoHgSGGGCCxTv_u6Cw' },
+  { name: 'Spotify', handle: 'noisystudyroom', url: 'https://open.spotify.com/show/033XrQOUG2qLNHDLtBC7ce' },
   { name: 'Instagram', handle: 'hato_iro', url: 'https://www.instagram.com/hato_iro/' },
   { name: 'Facebook', handle: '石黒晴翔', url: 'https://www.facebook.com/profile.php?id=100076340807338&locale=ja_JP' },
   { name: 'LinkedIn', handle: 'Haruto Ishiguro', url: 'https://www.linkedin.com/in/haruto-ishiguro-96268a271/' },
   { name: 'GitHub', handle: 'Hatoiro', url: 'https://github.com/Hatoiro' },
-  { name: 'Mail', handle: '', url: 'ha1496@icloud.com' },
+  { name: 'Mail', handle: '', url: 'mailto:ha1496@icloud.com' },
 ].filter((s) => s.url);
 
 export const podcast = {
@@ -31,7 +31,7 @@ export const podcast = {
   tagline: '',
   about: '身の回りの面白い友人を連れてきてインタビューする、30分ほどの質素なpodcast。YouTube と Spotify で配信している。',
   youtube: 'https://www.youtube.com/@noisystudyroom',
-  spotify: 'https://open.spotify.com/show/033XrQOUG2qLNHDLtBC7ce?si=SnCsfoHgSGGGCCxTv_u6Cw',
+  spotify: 'https://open.spotify.com/show/033XrQOUG2qLNHDLtBC7ce',
 };
 
 export const instagram = { handle: 'hato_iro', url: 'https://www.instagram.com/hato_iro/' };
