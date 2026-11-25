@@ -18,8 +18,12 @@ const IMG = new Set(['.jpg', '.jpeg', '.png', '.webp', '.tif', '.tiff']);
 
 const exists = (p) => stat(p).then(() => true, () => false);
 const titleFrom = (file) => {
-  const base = basename(file, extname(file)).replace(/^\d+[-_ ]*/, '').replace(/[-_]+/g, ' ').trim();
-  return /^(img|dsc|dscf|_mg|p\d|r\d)\s?\d*$/i.test(base) ? '' : base;   // カメラの自動ファイル名はタイトルにしない
+  const base = basename(file, extname(file))
+    .replace(/\s+(large|medium|small|actual size)$/i, '')   // Finder の「イメージを変換」が付ける語
+    .replace(/^\d+[-_ ]*/, '').replace(/[-_]+/g, ' ').trim();
+  // カメラの自動ファイル名（IMG_7255, DSC05590, 61A0001 など）はタイトルにしない
+  if (/^(img|dsc|dscf|_mg|_dsc|pxl|photo)\s?[\d ]*$/i.test(base) || /^[a-z_]*\d[\w]*$/i.test(base) && /\d{3,}/.test(base)) return '';
+  return base;
 };
 const labelFrom = (dir) => dir.replace(/^\d+[-_ ]*/, '').replace(/[-_]+/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 const ym = (d) => (d instanceof Date && !isNaN(d) ? `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}` : '');
@@ -32,7 +36,7 @@ async function readMeta(path) {
     date: ym(m?.DateTimeOriginal || m?.CreateDate),
     lens: m?.LensModel || '',
     aperture: m?.FNumber ? `f/${Math.round(m.FNumber * 10) / 10}` : '',
-    camera: m?.Model || '',
+    camera: /SP-?\d{3,4}|frontier|noritsu|scan|LS-\d/i.test(m?.Model || '') ? '' : (m?.Model || ''),   // フィルムスキャナーの機種名はカメラとして出さない
   };
 }
 async function render(path, outBase, sizes) {
