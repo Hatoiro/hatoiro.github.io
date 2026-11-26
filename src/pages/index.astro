@@ -31,7 +31,7 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
   <SiteHeader />
   <main>
     <!-- ===== Cover: each year is an issue. Full screen at first, pulls back into a card on scroll ===== -->
-    <section class="cover-stage" aria-label="表紙" data-cover-stage>
+    <section class="cover-stage" aria-label="表紙" data-cover-stage data-nosnippet>
       <div class="cover-clip dark">
         {issues.map((iss) => (
           <div class="cover" data-issue-panel={iss.id} data-tone={iss.tone} hidden={iss.id !== currentIssue} style={`--tone:${iss.tone}`}>

@@ -8,7 +8,7 @@
 export const draft = false;
 
 // LINE などでリンクを共有したときに出る説明文（トップページ）。各ページの説明は、それぞれのページで指定
-export const shareDescription = '石黒晴翔のポートフォリオサイトです。';
+export const shareDescription = '石黒晴翔のポートフォリオサイトです。Portfolio of Haruto Ishiguro.';
 
 export const profile = {
   nameJa: '石黒晴翔',
@@ -49,8 +49,8 @@ export const issues: Issue[] = [
   {
     id: 'pre', tab: '〜2024', big: '’24', kicker: 'Back issues · 〜2024', theme: 'ここまでのこと。', tone: '#3E3A34',
     lines: [
-      { k: 'Kaisei', v: 'Entaring Kaisei High' },
-      { k: 'Summer school', v: 'studied Economics at Choate Rosemary Hall' },
+      { k: 'Kaisei', v: 'Entered Kaisei High School' },
+      { k: 'Summer school', v: 'Studied economics at Choate Rosemary Hall' },
     ],
     entries: [
       { m: '2022.04', tag: 'Education', title: '開成高校 入学' },
@@ -60,9 +60,9 @@ export const issues: Issue[] = [
   {
     id: '2025', tab: '2025', big: '2025', kicker: 'Issue 2025', theme: '東京大学へ。投資の現場へ。', tone: '#2E3136',
     lines: [
-      { k: 'Graduation', v: 'Graduated Kaisei High' },
-      { k: 'University', v: 'Entaring UTokyo' },
-      { k: 'Venture capital', v: 'started working as an intern at HIRAC FUND' },
+      { k: 'Graduation', v: 'Graduated from Kaisei High School' },
+      { k: 'University', v: 'Entered the University of Tokyo' },
+      { k: 'Venture capital', v: 'Started as an intern at HIRAC FUND' },
     ],
     entries: [
       { m: '03', tag: 'Education', title: '開成高校 卒業' },
