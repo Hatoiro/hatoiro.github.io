@@ -10,6 +10,7 @@ const linkedin = socials.find((s) => s.name === 'LinkedIn');
   <main class="wrap page">
     <p class="kicker">Front room — About</p>
     <h1 class="name">{profile.nameJa}<span>{profile.nameEn}</span></h1>
+    <p class="kana">{profile.nameKana}</p>
     <p class="headline">{profile.headline} · {profile.location}</p>
     <p class="intro">{profile.intro}</p>
 
@@ -38,6 +39,7 @@ const linkedin = socials.find((s) => s.name === 'LinkedIn');
 <style>
   .page { padding-block: clamp(64px, 9vw, 112px); max-width: 960px; }
   .name { margin: 12px 0 0; font-size: clamp(52px, 9vw, 96px); font-weight: var(--w-black); line-height: 1; letter-spacing: 0.06em; display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 20px; }
+  .kana { margin: 10px 0 0; font: 400 13px var(--f-mono); letter-spacing: 0.2em; color: var(--muted); }
   .name span { font: italic 400 clamp(28px, 4.5vw, 44px) var(--f-serif); letter-spacing: 0; }
   .headline { margin: 18px 0 0; font-weight: var(--w-bold); }
   .intro { max-width: 620px; margin: 24px 0 64px; }

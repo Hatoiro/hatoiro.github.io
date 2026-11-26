@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { draft, profile, shareDescription } from '../data/site';
+import { draft, profile, shareDescription, socials } from '../data/site';
 
 interface Props { title?: string; description?: string; bodyClass?: string; }
 const { title, description = shareDescription, bodyClass = '' } = Astro.props;
@@ -9,10 +9,10 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
 // Google の検索結果に出る「サイト名」（ないと github.io の GitHub と表示される）。トップページにだけ置く
 const siteLd = Astro.url.pathname === '/' ? JSON.stringify({
   '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  name: profile.nameJa,
-  alternateName: [profile.nameEn, `${profile.nameJa} ${profile.nameEn}`],
-  url: 'https://hatoiro.github.io/',
+  '@graph': [
+    { '@type': 'WebSite', name: profile.nameJa, alternateName: [profile.nameEn, `${profile.nameJa} ${profile.nameEn}`], url: 'https://hatoiro.github.io/' },
+    { '@type': 'Person', name: profile.nameJa, alternateName: [profile.nameEn, profile.nameKana, profile.nameKana.replace(/\s/g, '')], url: 'https://hatoiro.github.io/', sameAs: socials.filter((s) => ['Instagram', 'Facebook', 'LinkedIn', 'GitHub'].includes(s.name)).map((s) => s.url) },
+  ],
 }) : '';
 ---
 <!DOCTYPE html>

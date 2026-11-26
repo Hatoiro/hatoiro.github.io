@@ -8,11 +8,12 @@
 export const draft = false;
 
 // LINE などでリンクを共有したときに出る説明文（トップページ）。各ページの説明は、それぞれのページで指定
-export const shareDescription = '石黒晴翔のポートフォリオサイトです。Portfolio of Haruto Ishiguro.';
+export const shareDescription = '石黒晴翔（いしぐろ はると）のポートフォリオサイトです。Portfolio of Haruto Ishiguro.';
 
 export const profile = {
   nameJa: '石黒晴翔',
   nameEn: 'Haruto Ishiguro',
+  nameKana: 'いしぐろ はると',
   headline: 'VC | Analyst | UTokyo student',
   location: 'Tokyo, Japan',
   intro: '東京大学で経済を学びながら、スタートアップ投資の現場に立ち、ポッドキャストで話し、写真を撮り、アプリをつくっている。このサイトは、その記録のアーカイブ。',
