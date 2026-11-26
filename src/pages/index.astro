@@ -56,7 +56,7 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
     </section>
 
     <!-- ===== Podcast ===== -->
-    <section id="studyroom" class="wrap band">
+    <section id="studyroom" class="wrap band" data-nosnippet>
       <div class="head">
         <div>
           <p class="kicker">{hub.podcastKicker}</p>
@@ -93,7 +93,7 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
     </section>
 
     <!-- ===== Darkroom ===== -->
-    <section id="darkroom" class="dark darkroom-band">
+    <section id="darkroom" class="dark darkroom-band" data-nosnippet>
       <div class="wrap">
         <div class="head">
           <div>
@@ -116,7 +116,7 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
 
     <!-- ===== Map room (旅) ===== -->
     {trips.length > 0 && (
-      <section id="map" class="wrap band map">
+      <section id="map" class="wrap band map" data-nosnippet>
         <div class="head">
           <div>
             <p class="kicker">{hub.mapKicker}</p>
@@ -145,7 +145,7 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
     )}
 
     <!-- ===== Archive room (年譜) ===== -->
-    <section id="archive" class="wrap band">
+    <section id="archive" class="wrap band" data-nosnippet>
       <h2 class="sec-title archive-title">Archive <span class="thin">room</span></h2>
       <div class="chron">
         <div class="chron-side">
@@ -178,7 +178,7 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
     </section>
 
     <!-- ===== Lab room (作品) ===== -->
-    <section id="lab" class="wrap band works">
+    <section id="lab" class="wrap band works" data-nosnippet>
       <p class="kicker">{hub.worksKicker}</p>
       <h2 class="sec-title">Lab <span class="thin">room</span></h2>
       <div class="works-grid">
@@ -241,7 +241,7 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
 
     <!-- ===== My room ===== -->
     <a class="room-band" href="/room/">
-      <span class="wrap room-inner">
+      <span class="wrap room-inner" data-nosnippet>
         <span>
           <span class="kicker light">{hub.roomKicker}</span>
           <span class="room-title">{hub.roomTitle}<em>{hub.roomTitleItalic}</em></span>
