@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   schedule:
-    - cron: '17 21 * * *'   # 毎日 06:17 JST にポッドキャストの新着を取り込む
+    - cron: '17 21 * * *'   # 毎日 06:17 JST にポッドキャストと note の新着を取り込む
   workflow_dispatch:
 
 permissions:
@@ -28,6 +28,7 @@ jobs:
       - run: npm ci
       - run: npm run photos
       - run: npm run episodes
+      - run: npm run notes
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:

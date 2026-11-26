@@ -3,6 +3,8 @@ import Base from '../layouts/Base.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import Darkroom from '../components/Darkroom.astro';
+import ReadingList from '../components/ReadingList.astro';
+import { reading, articles } from '../data/reading';
 import { profile, podcast, instagram, issues, currentIssue, featuredWork, works, lab, hub, journeys } from '../data/site';
 import Lightbox from '../components/Lightbox.astro';
 import photos from '../data/photos.json';
@@ -141,6 +143,24 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
             もっと見る（あと {trips.length - MAP_FIRST}）
           </button>
         )}
+      </section>
+    )}
+
+    <!-- ===== Reading room (note のレポート深掘り) ===== -->
+    {articles.length > 0 && (
+      <section id="reading" class="wrap band reading" data-nosnippet>
+        <div class="head">
+          <div>
+            <p class="kicker">Reading room — {reading.series}</p>
+            <h2 class="sec-title">Reading <span class="thin">room</span></h2>
+          </div>
+          <p class="lede">{reading.lede}</p>
+        </div>
+        <ReadingList items={articles.slice(0, 3)} />
+        <p class="reading-more">
+          <a class="btn" href="/reading-room/">すべての記事</a>
+          <a class="btn" href={reading.note}>note で読む</a>
+        </p>
       </section>
     )}
 
@@ -369,6 +389,8 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
   .more-btn { display: block; margin: 40px auto 0; padding: 14px 28px; border: 1px solid var(--ink); background: none; color: var(--ink); font: 400 12px var(--f-mono); letter-spacing: 0.12em; cursor: pointer; transition: background 0.2s, color 0.2s; }
   .more-btn:hover { background: var(--ink); color: var(--ivory); }
   .trip-tags .learn { border-color: var(--red); color: var(--red); }
+  .reading { border-bottom: 1px solid var(--ink); }
+  .reading-more { display: flex; flex-wrap: wrap; gap: 10px; margin: 32px 0 0; }
   .archive-title { margin-bottom: 48px; }
   .chron { display: flex; flex-wrap: wrap; gap: 48px; }
   .chron-side { flex: 1 1 300px; }

@@ -1,0 +1,25 @@
+---
+import Base from '../../layouts/Base.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import ReadingList from '../../components/ReadingList.astro';
+import { reading, articles } from '../../data/reading';
+---
+<Base title="Reading room" description={`${reading.series} — ${reading.lede}`}>
+  <SiteHeader />
+  <main class="wrap page">
+    <p class="kicker">Reading room — {reading.series}</p>
+    <h1 class="sec-title">Reading <span class="thin">room</span></h1>
+    <p class="lede">{reading.lede}</p>
+    <p class="btns"><a class="btn solid" href={reading.note}>note でフォローする</a></p>
+    <ReadingList items={articles} />
+    <p class="auto">新しい記事は note から毎日自動で取り込まれます。</p>
+  </main>
+  <SiteFooter />
+</Base>
+<style>
+  .page { padding-block: clamp(64px, 9vw, 112px); }
+  .lede { max-width: 560px; margin: 20px 0 24px; }
+  .btns { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 48px; }
+  .auto { margin-top: 24px; font: 400 12px var(--f-mono); color: var(--muted); }
+</style>

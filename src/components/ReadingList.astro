@@ -1,0 +1,36 @@
+---
+// レポート深掘りシリーズの記事リスト（トップと /reading-room/ で共用）
+import { fmtDate, type Article } from '../data/reading';
+interface Props { items: Article[] }
+const { items } = Astro.props;
+---
+<ol class="reads">
+  {items.map((a) => (
+    <li>
+      <a href={a.url}>
+        <span class="no">{a.no ? `#${a.no}` : '—'}</span>
+        <span class="body">
+          <span class="meta">{[a.source, fmtDate(a.published)].filter(Boolean).join(' · ')}</span>
+          <span class="topic">{a.topic ?? a.title}</span>
+        </span>
+        {a.thumbnail && <span class="thumb"><img src={a.thumbnail} alt="" loading="lazy" /></span>}
+      </a>
+    </li>
+  ))}
+</ol>
+<style>
+  .reads { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink); }
+  .reads a { display: grid; grid-template-columns: 96px minmax(0, 1fr) 200px; align-items: center; gap: 28px; padding: 26px 0; border-bottom: 1px solid var(--line); text-decoration: none; }
+  .no { font: 400 clamp(40px, 5vw, 60px)/1 var(--f-display); }
+  .body { display: flex; flex-direction: column; gap: 8px; }
+  .meta { font: 400 12px var(--f-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  .topic { font: 400 clamp(26px, 3.2vw, 40px)/1.25 var(--f-serif); }
+  .thumb { display: block; aspect-ratio: 1.91 / 1; overflow: hidden; background: #1C1A18; }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+  .reads a:hover .topic { color: var(--red); }
+  .reads a:hover .thumb img { transform: scale(1.04); }
+  @media (max-width: 700px) {
+    .reads a { grid-template-columns: 56px minmax(0, 1fr); gap: 16px; }
+    .thumb { display: none; }
+  }
+</style>
