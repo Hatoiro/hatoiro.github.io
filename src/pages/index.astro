@@ -40,7 +40,7 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
             {covers[iss.id] && <img class="cover-bg" src={covers[iss.id]} alt="" />}
             <div class="cover-inner">
               <div class="cover-top"><span>The Haruto Ishiguro Archive</span><span>{iss.kicker}</span></div>
-              <h1 class="masthead">Haruto<br />Ishiguro</h1>
+              <h1 class="masthead">Haruto<br />Ishiguro<span class="masthead-ja">{profile.nameJa}<span>{profile.nameKana}</span></span></h1>
               <ol class="lines">
                 {iss.lines.map((l) => <li><span class="k">{l.k}</span><span class="v">{l.v}</span></li>)}
               </ol>
@@ -329,6 +329,8 @@ const bars = Array.from({ length: 40 }, (_, i) => ({ h: 30 + ((i * 37) % 70), d:
     transform: scale(calc(1 - var(--p) * 0.04)); transform-origin: 50% 0; }
   .cover-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; font: 400 12px var(--f-mono); letter-spacing: 0.12em; text-transform: uppercase; }
   .masthead { margin: 12px 0 0; font: 400 clamp(84px, 15vw, 216px)/0.84 var(--f-display); letter-spacing: -0.005em; text-transform: uppercase; }
+  .masthead-ja { display: flex; align-items: baseline; gap: 14px; margin-top: 18px; font: 700 clamp(18px, 1.6vw, 22px)/1 var(--font); letter-spacing: 0.16em; text-transform: none; }
+  .masthead-ja span { font: 400 12px var(--f-mono); letter-spacing: 0.24em; opacity: 0.8; }
   .lines { list-style: none; margin: auto 0 0; padding: 24px 0 0; max-width: 600px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 16px 32px; }
   .lines li { display: flex; flex-direction: column; gap: 2px; }
   .lines .k { font: 400 11px var(--f-mono); color: var(--red-on-dark); letter-spacing: 0.14em; text-transform: uppercase; }

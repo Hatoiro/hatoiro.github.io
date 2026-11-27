@@ -4,7 +4,8 @@ import { draft, profile, shareDescription, socials } from '../data/site';
 
 interface Props { title?: string; description?: string; bodyClass?: string; }
 const { title, description = shareDescription, bodyClass = '' } = Astro.props;
-const fullTitle = title ? `${title} — ${profile.nameJa}` : `${profile.nameJa} ${profile.nameEn}`;
+// トップのタイトルには読み方も入れる（ひらがなで検索されたときのため）
+const fullTitle = title ? `${title} — ${profile.nameJa}` : `${profile.nameJa}（${profile.nameKana.replace(/\s/g, '')}）${profile.nameEn}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 // Google の検索結果に出る「サイト名」（ないと github.io の GitHub と表示される）。トップページにだけ置く
 const siteLd = Astro.url.pathname === '/' ? JSON.stringify({
