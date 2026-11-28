@@ -23,7 +23,7 @@ type MapRoll = { id: string; label: string; year?: string; period?: string; note
 const mapRolls = (photos.rolls as MapRoll[]).filter((r) => r.frames.length);
 const trips = [...mapRolls.filter((r) => r.year), ...mapRolls.filter((r) => !r.year)].map((r) => {
   const j = journeys[r.id] ?? {};
-  return { id: r.id, name: j.title ?? r.label, period: j.period ?? (r.period || r.note || ''), place: j.place ?? '', img: r.frames[0].full, count: r.frames.length, learnings: j.learnings?.length ?? 0 };
+  return { id: r.id, name: j.title ?? r.label, period: j.period ?? (r.period || r.note || ''), place: j.place ?? '', img: r.frames[0].full, count: r.frames.length, learnings: (j.learnings ?? []).reduce((n, g) => n + g.items.length, 0) };
 });
 const MAP_FIRST = 4; // トップで最初に見せる数。残りは「もっと見る」で開く
 const shownWorks = [featuredWork, ...works].filter((w) => (w.kind === 'Video' ? !!ytId(w.youtube) : true));

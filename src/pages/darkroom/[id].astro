@@ -8,6 +8,8 @@ import Darkroom from '../../components/Darkroom.astro';
 import Lightbox from '../../components/Lightbox.astro';
 import photos from '../../data/photos.json';
 import { journeys } from '../../data/site';
+import ReadingList from '../../components/ReadingList.astro';
+import { articlesByUrl, reading } from '../../data/reading';
 
 type Frame = { thumb: string; full: string; title: string };
 type Roll = { id: string; label: string; note?: string; year?: string; period?: string; camera: string; frames: Frame[] };
@@ -21,7 +23,10 @@ const j = journeys[roll.id] ?? {};
 const title = j.title ?? roll.label;
 const meta = [j.place, j.period ?? roll.period, roll.camera].filter(Boolean);
 const hero = roll.frames[0];
-const learnings = j.learnings ?? [];
+const groups = j.learnings ?? [];
+const hasLearn = groups.some((g) => g.items.length);
+const reads = articlesByUrl(j.reads);
+let k = 0; // 学びの通し番号
 ---
 <Base title={`${title} — Darkroom`} description={j.context ?? `${title} の写真。`}>
   <SiteHeader />
@@ -36,15 +41,33 @@ const learnings = j.learnings ?? [];
       <img src={hero.full} alt={hero.title || title} />
     </button>
 
-    {(j.context || learnings.length > 0) && (
+    {(j.context || hasLearn) && (
       <section class="wrap story">
         {j.context && <p class="context">{j.context}</p>}
-        {learnings.length > 0 && (
+        {hasLearn && (
           <div class="learn">
             <h2>What I took away <span>— 学び</span></h2>
-            <ol>{learnings.map((l, i) => <li><span class="n">{String(i + 1).padStart(2, '0')}</span><span>{l}</span></li>)}</ol>
+            {groups.map((g) => (
+              <div class="group">
+                {g.t && <h3>{g.t}</h3>}
+                <ol>{g.items.map((l) => <li><span class="n">{String(++k).padStart(2, '0')}</span><span>{l}</span></li>)}</ol>
+              </div>
+            ))}
+            {reads.length > 0 && <a class="deeper" href="#read">学びをもっと詳しく読む ↓</a>}
           </div>
         )}
+      </section>
+    )}
+
+    {reads.length > 0 && (
+      <section class="wrap read" id="read">
+        <p class="kicker">Read more — この旅から書いたこと</p>
+        <h2 class="read-title">考えたことは、<em>note</em> に詳しく。</h2>
+        <ReadingList items={reads} dark />
+        <p class="read-btns">
+          <a class="btn solid" href={reads[0].url}>note で読む</a>
+          <a class="btn" href="/reading-room/">Reading room へ</a>
+        </p>
       </section>
     )}
 
@@ -74,7 +97,15 @@ const learnings = j.learnings ?? [];
   .learn { flex: 999 1 520px; }
   .learn h2 { margin: 0 0 16px; font: 400 12px var(--f-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--red-on-dark); }
   .learn h2 span { color: var(--muted-on-dark); }
+  .group + .group { margin-top: 36px; }
+  .group h3 { margin: 0 0 10px; font: 400 clamp(22px, 2.4vw, 28px)/1.3 var(--f-serif); color: #EDE9DF; }
   .learn ol { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line-on-dark); }
+  .deeper { display: inline-block; margin-top: 28px; padding: 12px 20px; border: 1px solid var(--red-on-dark); color: var(--red-on-dark); font-weight: var(--w-bold); text-decoration: none; }
+  .deeper:hover { background: var(--red-on-dark); color: #111010; }
+  .read { padding-block: 56px 8px; scroll-margin-top: 80px; }
+  .read-title { margin: 10px 0 28px; font: 400 clamp(30px, 4vw, 48px)/1.2 var(--f-serif); color: #EDE9DF; }
+  .read-title em { color: var(--red-on-dark); }
+  .read-btns { display: flex; flex-wrap: wrap; gap: 10px; margin: 28px 0 0; }
   .learn li { display: flex; gap: 20px; padding: 18px 0; border-bottom: 1px solid var(--line-on-dark); font-size: 17px; line-height: 1.8; }
   .learn .n { flex: 0 0 36px; font: 400 22px var(--f-display); color: var(--red-on-dark); line-height: 1.4; }
   .sheet { padding-block: 64px 24px; }
